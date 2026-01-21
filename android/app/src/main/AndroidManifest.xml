@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Required for network requests (GitHub API, url_launcher) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    
     <application
         android:label="CalNotas"
         android:name="${applicationName}"
