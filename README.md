@@ -1,10 +1,11 @@
 # CalNotas - Grade Calculator App
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Platform-Android-green?style=flat-square&logo=android" alt="Platform Android"/>
+  <img src="https://img.shields.io/badge/Platform-Android%208.0+-green?style=flat-square&logo=android" alt="Platform Android 8.0+"/>
   <img src="https://img.shields.io/badge/Flutter-3.27+-blue?style=flat-square&logo=flutter" alt="Flutter"/>
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License"/>
   <img src="https://img.shields.io/github/v/release/dony-aep/calnotas?style=flat-square" alt="Release"/>
+  <img src="https://img.shields.io/github/downloads/dony-aep/calnotas/total?style=flat-square&color=brightgreen" alt="Downloads"/>
 </p>
 
 A modern, intuitive grade calculator app built with Flutter and Material Design 3. Perfect for students who need to track and calculate their academic grades with customizable evaluation percentages.
