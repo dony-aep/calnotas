@@ -50,13 +50,19 @@ A modern, intuitive grade calculator app built with Flutter and Material Design 
 
 ## Screenshots
 
+<p align="center">
+  <img src="screenshots/home.png" width="250" alt="Home Screen"/>
+  <img src="screenshots/default_calculator.png" width="250" alt="Default Calculator"/>
+  <img src="screenshots/custom_calculator.png" width="250" alt="Custom Calculator"/>
+</p>
+
 | Home | Default Calculator | Custom Calculator |
 |:----:|:------------------:|:-----------------:|
-| Coming soon | Coming soon | Coming soon |
+| Main menu with quick access to calculators | Standard grade calculator with 3 periods | Create your own custom grade fields |
 
 ## Requirements
 
-- **Android 8.0 (Oreo)** or higher (API level 26+)
+- **Android 8.0 (Oreo) to Android 16+** (API level 26+)
 - ~52 MB storage space
 
 ## Installation
