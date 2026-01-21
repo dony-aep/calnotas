@@ -2,9 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grade_calculator_app/translations/translations.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-class AboutScreen extends StatelessWidget {
+class AboutScreen extends StatefulWidget {
   const AboutScreen({super.key});
+
+  @override
+  State<AboutScreen> createState() => _AboutScreenState();
+}
+
+class _AboutScreenState extends State<AboutScreen> {
+  String _version = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    if (mounted) {
+      setState(() {
+        _version = 'v${packageInfo.version}';
+      });
+    }
+  }
 
   Future<void> _launchUrl() async {
     final Uri url = Uri.parse('https://donyaep.vercel.app/');
@@ -81,7 +104,7 @@ class AboutScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
-                    t(context, 'version'),
+                    _version.isNotEmpty ? _version : '...',
                     style: textTheme.labelLarge?.copyWith(
                       color: colorScheme.onSecondaryContainer,
                     ),

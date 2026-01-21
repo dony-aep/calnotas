@@ -108,7 +108,6 @@ const Map<String, String> esES = {
 
   // About screen
   'about': 'Acerca de',
-  'version': 'v1.0',
   'appDescription':
       'Esta aplicación fue creada para ayudar a los estudiantes a calcular sus notas finales de acuerdo con el sistema de evaluación de la Universidad Americana - Colombia.',
   'copyrightDeveloper': 'Desarrollado por dony.',

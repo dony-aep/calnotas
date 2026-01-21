@@ -107,7 +107,6 @@ const Map<String, String> enUS = {
 
   // About screen
   'about': 'About',
-  'version': 'v1.0',
   'appDescription':
       'This application was created to help students calculate their final grades according to the evaluation system of Universidad Americana - Colombia.',
   'copyrightDeveloper': 'Developed by dony.',
