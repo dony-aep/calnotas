@@ -1,8 +1,9 @@
 # CalNotas - Grade Calculator App
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Platform-Android%208.0+-green?style=flat-square&logo=android" alt="Platform Android 8.0+"/>
-  <img src="https://img.shields.io/badge/Flutter-3.27+-blue?style=flat-square&logo=flutter" alt="Flutter"/>
+  <img src="https://img.shields.io/badge/Platform-Android%208.0--16+-green?style=flat-square&logo=android" alt="Platform Android 8.0-16+"/>
+  <img src="https://img.shields.io/badge/Flutter-3.38+-blue?style=flat-square&logo=flutter" alt="Flutter"/>
+  <img src="https://img.shields.io/badge/Dart-3.10+-blue?style=flat-square&logo=dart" alt="Dart"/>
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License"/>
   <img src="https://img.shields.io/github/v/release/dony-aep/calnotas?style=flat-square" alt="Release"/>
   <img src="https://img.shields.io/github/downloads/dony-aep/calnotas/total?style=flat-square&color=brightgreen" alt="Downloads"/>
@@ -62,8 +63,9 @@ A modern, intuitive grade calculator app built with Flutter and Material Design 
 
 ## Requirements
 
-- **Android 8.0 (Oreo) to Android 16+** (API level 26+)
-- ~52 MB storage space
+- **Android 8.0 (Oreo) to Android 16** (API level 26-36)
+- ~55 MB storage space
+- compileSdk: 36, targetSdk: 35, minSdk: 26
 
 ## Installation
 
@@ -89,12 +91,13 @@ The APK will be generated at `build/app/outputs/flutter-apk/app-release.apk`
 
 ## Tech Stack
 
-- **Framework:** Flutter 3.27+
-- **Language:** Dart 3.7+
+- **Framework:** Flutter 3.38+
+- **Language:** Dart 3.10+
 - **Design System:** Material Design 3
 - **State Management:** Provider
 - **HTTP Client:** http package
 - **Local Storage:** SharedPreferences
+- **Build Tools:** Java 17, Gradle 8.x, AGP 8.x
 
 ## License
 

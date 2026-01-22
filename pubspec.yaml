@@ -1,5 +1,5 @@
 name: grade_calculator_app
-description: "A new Flutter project."
+description: "CalNotas - Calculadora de promedios de notas con Material Design 3. Soporta cálculo personalizado de ponderaciones, temas claro/oscuro, múltiples idiomas (ES/EN), y verificación de actualizaciones desde GitHub."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -19,7 +19,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.1.0+2
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.10.0
+  flutter: ">=3.38.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions

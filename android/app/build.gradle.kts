@@ -17,37 +17,30 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.example.grade_calculator_app"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36  // Android 16 (API 36) - Required by dependencies
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     defaultConfig {
         applicationId = "com.example.grade_calculator_app"
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdk = 26  // Android 8.0 (Oreo)
+        targetSdk = 35  // Android 15 - Keep for broader compatibility
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        
-        // Only include 64-bit architectures for better Android 16 compatibility
-        ndk {
-            abiFilters += listOf("arm64-v8a", "x86_64")
-        }
     }
 
-    // Ensure proper 16KB page alignment for native libraries
+    // Ensure proper packaging for native libraries
     packaging {
         jniLibs {
             useLegacyPackaging = false
-            // Exclude 32-bit libraries for better Android 16 compatibility
-            excludes += listOf("lib/armeabi-v7a/**")
         }
     }
 
@@ -55,12 +48,13 @@ android {
         create("release") {
             keyAlias = keystoreProperties["keyAlias"] as String?
             keyPassword = keystoreProperties["keyPassword"] as String?
-            storeFile = keystoreProperties["storeFile"]?.let { file(it as String) }
+            storeFile = keystoreProperties["storeFile"]?.let { rootProject.file(it as String) }
             storePassword = keystoreProperties["storePassword"] as String?
+            // V1 (JAR) signing for older devices, V2/V3 for Android 7.0+/9.0+
             enableV1Signing = true
             enableV2Signing = true
             enableV3Signing = true
-            enableV4Signing = true
+            enableV4Signing = false  // V4 requires separate .idsig file
         }
     }
 
