@@ -17,8 +17,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.example.grade_calculator_app"
-    compileSdk = 36
-    ndkVersion = "27.0.12077973"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -31,10 +31,24 @@ android {
 
     defaultConfig {
         applicationId = "com.example.grade_calculator_app"
-        minSdk = 26
-        targetSdk = 36
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        
+        // Only include 64-bit architectures for better Android 16 compatibility
+        ndk {
+            abiFilters += listOf("arm64-v8a", "x86_64")
+        }
+    }
+
+    // Ensure proper 16KB page alignment for native libraries
+    packaging {
+        jniLibs {
+            useLegacyPackaging = false
+            // Exclude 32-bit libraries for better Android 16 compatibility
+            excludes += listOf("lib/armeabi-v7a/**")
+        }
     }
 
     signingConfigs {
