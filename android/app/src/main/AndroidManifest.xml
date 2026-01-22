@@ -1,11 +1,14 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- Required for network requests (GitHub API, url_launcher) -->
     <uses-permission android:name="android.permission.INTERNET" />
     
     <application
         android:label="CalNotas"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:pageSizeCompat="enabled"
+        tools:targetApi="36">
         <activity
             android:name=".MainActivity"
             android:exported="true"
