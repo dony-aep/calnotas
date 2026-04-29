@@ -1,0 +1,128 @@
+<resources>
+    <string name="app_name">CalNotas</string>
+
+    <string name="home_title">CalNotas</string>
+    <string name="home_welcome_title">Welcome!</string>
+    <string name="home_welcome_subtitle">Select a calculator to get started.</string>
+    <string name="home_default_description">Calculate your grades with the standard format.</string>
+    <string name="home_custom_description">Create your own calculator with custom fields.</string>
+    <string name="open_menu">Open menu</string>
+    <string name="grade_calculator">Grade Calculator</string>
+    <string name="custom_grade_calculator">Custom Grade Calculator</string>
+    <string name="settings">Settings</string>
+    <string name="help">Help</string>
+    <string name="about">About</string>
+    <string name="check_updates">Check for updates</string>
+
+    <string name="default_calculator_title">Grade Calculator</string>
+    <string name="invalid_grade_title">Invalid grade</string>
+    <string name="invalid_number_message">Invalid input: enter a valid number.</string>
+    <string name="invalid_range_message">Invalid grade: enter a value between 0 and 5.</string>
+    <string name="ok">OK</string>
+    <string name="back">Back</string>
+    <string name="clear">Clear</string>
+    <string name="final_grade_1_format">Final Grade 1 [Cut 1]: %1$s</string>
+    <string name="final_grade_2_format">Final Grade 2 [Cut 2]: %1$s</string>
+    <string name="final_grade_3_format">Final Grade 3 [Cut 3]: %1$s</string>
+    <string name="grade_1_formative">Grade 1 [Formative]</string>
+    <string name="grade_2_cognitive">Grade 2 [Cognitive]</string>
+    <string name="grade_3_formative">Grade 3 [Formative]</string>
+    <string name="grade_4_cognitive">Grade 4 [Cognitive]</string>
+    <string name="grade_5_formative">Grade 5 [Formative]</string>
+    <string name="grade_6_cognitive">Grade 6 [Cognitive]</string>
+    <string name="total_final_grade">Total Final Grade</string>
+    <string name="default_completion_label">Completed fields</string>
+    <string name="custom_percentage_progress_label">Percentage progress</string>
+    <string name="passing_message">Congratulations, you passed the subject.</string>
+    <string name="failing_message">You did not reach the minimum passing grade.</string>
+
+    <string name="custom_calculator_title">Custom Grade Calculator</string>
+    <string name="min_passing_grade">Minimum passing grade</string>
+    <string name="default_value_hint">Default value: 3.0</string>
+    <string name="no_fields_added">No fields yet. Use + to add one.</string>
+    <string name="add_field">Add field</string>
+    <string name="save_calculator">Save calculator</string>
+    <string name="reset">Reset</string>
+    <string name="field_prefix">Field %1$d</string>
+    <string name="field_name">Field name</string>
+    <string name="percentage">Percentage</string>
+    <string name="grade">Grade</string>
+    <string name="remove_field">Remove field</string>
+    <string name="calculator_saved">Calculator saved.</string>
+    <string name="invalid_grade_short">Invalid grade: use values between 0 and 5.</string>
+    <string name="percentage_exceeded_format">The percentage sum is %1$s%%. It cannot exceed 100%%.</string>
+    <string name="percentage_insufficient_format">The percentage sum is %1$s%%. It must be 100%%.</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_screen_subtitle">Personalize the app with your preferred theme and language.</string>
+    <string name="display">Display</string>
+    <string name="theme">Theme</string>
+    <string name="app_language">App language</string>
+    <string name="choose_theme_title">Choose a theme</string>
+    <string name="choose_language_title">Choose a language</string>
+    <string name="settings_choose_theme_hint">Select the theme you prefer for the app.</string>
+    <string name="settings_choose_language_hint">Select the language you prefer for the app.</string>
+    <string name="system_default">System default</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="spanish">Spanish</string>
+    <string name="english">English</string>
+    <string name="support">Support</string>
+    <string name="view_help_info">View help information</string>
+    <string name="check_updates_desc">Download the latest app version</string>
+
+    <string name="help_title">Help</string>
+    <string name="help_default_header">Default Grade Calculator</string>
+    <string name="help_default_body">Enter six grades and the total is calculated automatically using 15/15/15/15/20/20 weighting.</string>
+    <string name="help_custom_header">Custom Calculator</string>
+    <string name="help_custom_body">Add dynamic fields, define percentages and ensure the sum is exactly 100%% to get the final result.</string>
+    <string name="help_enter_grades">Enter the grades in the corresponding fields, for example: 4.5 or 3.0.</string>
+    <string name="help_update_2025_title">2025 update</string>
+    <string name="help_update_2025_body">Percentages were updated according to the new evaluation system. Grades 1-4 now weigh 15%% each, and grades 5-6 weigh 20%% each.</string>
+    <string name="help_formative_title">Formative grade</string>
+    <string name="help_formative_body">Evaluates continuous participation and weighs 15%% (Cut 1 and Cut 2) and 20%% (Cut 3).</string>
+    <string name="help_cognitive_title">Cognitive grade</string>
+    <string name="help_cognitive_body">Evaluates acquired knowledge and weighs 15%% (Cut 1 and Cut 2) and 20%% (Cut 3).</string>
+    <string name="help_auto_calc">After entering grades, results are calculated automatically in real time.</string>
+    <string name="help_example_title">Example</string>
+    <string name="help_example_description">For a Formative Grade of 4.5 and a Cognitive Grade of 3.0:</string>
+    <string name="help_final_grade_1_example">Final Grade 1 (Cut 1): (4.5 * 0.15) + (3.0 * 0.15) = 0.675 + 0.45 = 1.13</string>
+    <string name="help_final_grade_2_example">Final Grade 2 (Cut 2): (4.5 * 0.15) + (3.0 * 0.15) = 0.675 + 0.45 = 1.13</string>
+    <string name="help_final_grade_3_example">Final Grade 3 (Cut 3): (4.5 * 0.20) + (3.0 * 0.20) = 0.9 + 0.6 = 1.5</string>
+    <string name="help_total_final_grade_example">Total Final Grade: 1.13 + 1.13 + 1.5 = 3.76</string>
+    <string name="help_remember_passing">Remember that the total final grade must be greater than or equal to 3.0 to pass.</string>
+    <string name="help_custom_description">You can use the Custom Calculator to enter your own grades and percentages according to your needs.</string>
+    <string name="help_custom_point_1">Add as many fields as needed to reflect your evaluation system.</string>
+    <string name="help_custom_point_2">Make sure the sum of all percentages is 100%% to correctly calculate the total final grade.</string>
+    <string name="help_custom_point_3">After entering your custom fields, results are calculated automatically in real time.</string>
+    <string name="help_custom_point_4">Enter the minimum passing grade according to your academic system.</string>
+    <string name="help_customize_note">You can customize percentages according to the evaluation system you use.</string>
+    <string name="help_note_label">Note</string>
+    <string name="help_predefined_percentages">Predefined percentages are based on the evaluation system of Universidad Americana - Colombia.</string>
+
+    <string name="about_title">About</string>
+    <string name="app_description">This application was created to help students calculate their final grades according to the evaluation system of Universidad Americana - Colombia.</string>
+    <string name="visit_website">Visit website</string>
+    <string name="copyright_developer">Developed by dony.</string>
+    <string name="copyright_year_format">© %1$d - %2$s</string>
+    <string name="version_format">Version %1$s</string>
+
+    <string name="update_title">Check for updates</string>
+    <string name="checking_for_updates">Checking for updates...</string>
+    <string name="update_available">Update available</string>
+    <string name="up_to_date">You are up to date</string>
+    <string name="new_version_available">A new version is available to download.</string>
+    <string name="you_have_latest_version">You already have the latest version.</string>
+    <string name="current_version">Current version</string>
+    <string name="latest_version">Latest version</string>
+    <string name="release_notes">Release notes</string>
+    <string name="download_update">Download update</string>
+    <string name="check_again">Check again</string>
+    <string name="retry">Retry</string>
+    <string name="try_again_later">Try again later.</string>
+    <string name="no_releases_found">No releases found.</string>
+    <string name="error_fetching_updates">Error fetching updates.</string>
+    <string name="connection_error">Connection error.</string>
+    <string name="error_opening_link">Could not open the link.</string>
+    <string name="update_screen_error_generic">An error occurred while checking for updates.</string>
+</resources>
