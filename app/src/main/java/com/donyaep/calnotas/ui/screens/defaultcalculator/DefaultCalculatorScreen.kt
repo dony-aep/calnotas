@@ -182,19 +182,39 @@ fun DefaultCalculatorScreen(
                     }
                 }
 
+                val isPossible = uiState.predictionState == PredictionState.POSSIBLE
+                val requiredGradeText = uiState.requiredMinGrade.formatOneDecimal()
+                val safetyGradeText = uiState.safetyGrade?.formatOneDecimal()
+
+                @Composable
+                fun suggestedHintFor(grade: String): String? =
+                    if (grade.isBlank() && isPossible) {
+                        stringResource(R.string.prediction_field_hint_format, requiredGradeText)
+                    } else null
+
+                @Composable
+                fun secureHintFor(fieldIndex: Int): String? =
+                    if (safetyGradeText != null && uiState.safetyGradeFieldIndex == fieldIndex) {
+                        stringResource(R.string.prediction_secure_hint_format, safetyGradeText)
+                    } else null
+
                 GradeSectionCard(
                     title = stringResource(R.string.final_grade_1_format, uiState.final1.format())
                 ) {
                     GradeInput(
                         value = uiState.grade1,
                         label = stringResource(R.string.grade_1_formative),
-                        onValueChange = { viewModel.onGradeChanged(1, it) }
+                        onValueChange = { viewModel.onGradeChanged(1, it) },
+                        suggestedHint = suggestedHintFor(uiState.grade1),
+                        secureHint = secureHintFor(1)
                     )
                     Spacer(Modifier.height(10.dp))
                     GradeInput(
                         value = uiState.grade2,
                         label = stringResource(R.string.grade_2_cognitive),
-                        onValueChange = { viewModel.onGradeChanged(2, it) }
+                        onValueChange = { viewModel.onGradeChanged(2, it) },
+                        suggestedHint = suggestedHintFor(uiState.grade2),
+                        secureHint = secureHintFor(2)
                     )
                 }
 
@@ -204,13 +224,17 @@ fun DefaultCalculatorScreen(
                     GradeInput(
                         value = uiState.grade3,
                         label = stringResource(R.string.grade_3_formative),
-                        onValueChange = { viewModel.onGradeChanged(3, it) }
+                        onValueChange = { viewModel.onGradeChanged(3, it) },
+                        suggestedHint = suggestedHintFor(uiState.grade3),
+                        secureHint = secureHintFor(3)
                     )
                     Spacer(Modifier.height(10.dp))
                     GradeInput(
                         value = uiState.grade4,
                         label = stringResource(R.string.grade_4_cognitive),
-                        onValueChange = { viewModel.onGradeChanged(4, it) }
+                        onValueChange = { viewModel.onGradeChanged(4, it) },
+                        suggestedHint = suggestedHintFor(uiState.grade4),
+                        secureHint = secureHintFor(4)
                     )
                 }
 
@@ -220,13 +244,17 @@ fun DefaultCalculatorScreen(
                     GradeInput(
                         value = uiState.grade5,
                         label = stringResource(R.string.grade_5_formative),
-                        onValueChange = { viewModel.onGradeChanged(5, it) }
+                        onValueChange = { viewModel.onGradeChanged(5, it) },
+                        suggestedHint = suggestedHintFor(uiState.grade5),
+                        secureHint = secureHintFor(5)
                     )
                     Spacer(Modifier.height(10.dp))
                     GradeInput(
                         value = uiState.grade6,
                         label = stringResource(R.string.grade_6_cognitive),
-                        onValueChange = { viewModel.onGradeChanged(6, it) }
+                        onValueChange = { viewModel.onGradeChanged(6, it) },
+                        suggestedHint = suggestedHintFor(uiState.grade6),
+                        secureHint = secureHintFor(6)
                     )
                 }
 
@@ -293,6 +321,77 @@ fun DefaultCalculatorScreen(
                     }
                 }
 
+                if (uiState.predictionState != PredictionState.NONE &&
+                    uiState.predictionState != PredictionState.COMPLETE
+                ) {
+                    val predictionContainerColor by animateColorAsState(
+                        targetValue = when (uiState.predictionState) {
+                            PredictionState.GUARANTEED -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.60f)
+                            PredictionState.IMPOSSIBLE -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.60f)
+                            else -> MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.60f)
+                        },
+                        animationSpec = spring(stiffness = Spring.StiffnessLow),
+                        label = "prediction_card_color"
+                    )
+
+                    Surface(
+                        shape = MaterialTheme.shapes.extraLarge,
+                        color = predictionContainerColor,
+                        modifier = Modifier.animateContentSize(),
+                        tonalElevation = 1.dp
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(20.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.prediction_title),
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold
+                            )
+
+                            when (uiState.predictionState) {
+                                PredictionState.POSSIBLE -> {
+                                    Text(
+                                        text = uiState.requiredMinGrade.formatOneDecimal(),
+                                        style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold)
+                                    )
+                                    Text(
+                                        text = stringResource(
+                                            R.string.prediction_needed_format,
+                                            uiState.requiredMinGrade.formatOneDecimal(),
+                                            uiState.emptyFieldsCount
+                                        ),
+                                        textAlign = TextAlign.Center,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
+                                PredictionState.GUARANTEED -> {
+                                    Text(
+                                        text = stringResource(R.string.prediction_guaranteed),
+                                        textAlign = TextAlign.Center,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
+                                PredictionState.IMPOSSIBLE -> {
+                                    Text(
+                                        text = stringResource(R.string.prediction_impossible),
+                                        textAlign = TextAlign.Center,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
+                                else -> Unit
+                            }
+                        }
+                    }
+                }
+
                 Spacer(Modifier.height(100.dp))
             }
 
@@ -353,12 +452,28 @@ private fun GradeSectionCard(
 private fun GradeInput(
     value: String,
     label: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    suggestedHint: String? = null,
+    secureHint: String? = null
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
+        supportingText = if (suggestedHint != null || secureHint != null) {
+            {
+                Column {
+                    suggestedHint?.let { Text(it) }
+                    secureHint?.let {
+                        Text(
+                            text = it,
+                            color = MaterialTheme.colorScheme.tertiary,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
+            }
+        } else null,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
         singleLine = true,
         shape = MaterialTheme.shapes.medium,
@@ -367,3 +482,4 @@ private fun GradeInput(
 }
 
 private fun Double.format(): String = String.format("%.2f", this)
+private fun Double.formatOneDecimal(): String = String.format("%.1f", this)

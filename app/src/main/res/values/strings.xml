@@ -35,6 +35,12 @@
     <string name="custom_percentage_progress_label">Progreso de porcentaje</string>
     <string name="passing_message">Felicidades, aprobaste la asignatura.</string>
     <string name="failing_message">No alcanzaste la nota mínima de aprobación.</string>
+    <string name="prediction_title">Predicción para aprobar</string>
+    <string name="prediction_needed_format">Necesitas al menos %1$s en cada una de las %2$d notas restantes para aprobar.</string>
+    <string name="prediction_guaranteed">¡Ya aseguraste la aprobación! Cualquier nota en las restantes te mantiene aprobado.</string>
+    <string name="prediction_impossible">Aunque saques 5.0 en las notas restantes, no alcanzas el 3.0 para aprobar.</string>
+    <string name="prediction_field_hint_format">Sugerido: ≥ %1$s</string>
+    <string name="prediction_secure_hint_format">Con ≥ %1$s aseguras aprobar.</string>
 
     <string name="custom_calculator_title">Calculadora Personalizada</string>
     <string name="min_passing_grade">Nota minima para aprobar</string>
@@ -99,6 +105,8 @@
     <string name="help_customize_note">Puedes personalizar los porcentajes según el sistema de evaluación que utilices.</string>
     <string name="help_note_label">Nota</string>
     <string name="help_predefined_percentages">Los porcentajes predefinidos se basan en el sistema de evaluación de la Universidad Americana - Colombia.</string>
+    <string name="help_prediction_title">Predicción de notas</string>
+    <string name="help_prediction_summary">Mientras ingresas notas, un panel muestra la nota mínima uniforme que necesitas en los campos vacíos para aprobar; cada campo vacío también muestra una sugerencia individual, y si una sola nota puede asegurar la aprobación se indica justo debajo de ese campo.</string>
 
     <string name="about_title">Acerca de</string>
     <string name="app_description">Esta aplicación fue creada para ayudar a los estudiantes a calcular sus notas finales de acuerdo con el sistema de evaluación de la Universidad Americana - Colombia.</string>

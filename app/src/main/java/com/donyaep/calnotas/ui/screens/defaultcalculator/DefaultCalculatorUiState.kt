@@ -5,6 +5,14 @@ enum class DefaultCalculatorError {
     INVALID_RANGE
 }
 
+enum class PredictionState {
+    NONE,
+    GUARANTEED,
+    POSSIBLE,
+    IMPOSSIBLE,
+    COMPLETE
+}
+
 data class DefaultCalculatorUiState(
     val grade1: String = "",
     val grade2: String = "",
@@ -17,5 +25,10 @@ data class DefaultCalculatorUiState(
     val final3: Double = 0.0,
     val total: Double = 0.0,
     val hasAnyInput: Boolean = false,
-    val error: DefaultCalculatorError? = null
+    val error: DefaultCalculatorError? = null,
+    val predictionState: PredictionState = PredictionState.NONE,
+    val requiredMinGrade: Double = 0.0,
+    val emptyFieldsCount: Int = 0,
+    val safetyGrade: Double? = null,
+    val safetyGradeFieldIndex: Int = 0
 )

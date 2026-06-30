@@ -150,7 +150,8 @@ fun HelpScreen(onBack: () -> Unit) {
                     val helpItems = listOf(
                         stringResource(R.string.help_formative_title) to stringResource(R.string.help_formative_body),
                         stringResource(R.string.help_cognitive_title) to stringResource(R.string.help_cognitive_body),
-                        stringResource(R.string.help_auto_calc) to null
+                        stringResource(R.string.help_auto_calc) to null,
+                        stringResource(R.string.help_prediction_title) to stringResource(R.string.help_prediction_summary)
                     )
                     Column {
                         helpItems.forEachIndexed { index, (title, body) ->

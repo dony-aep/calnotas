@@ -18,6 +18,7 @@ CalNotas is a modern grade calculator app for Android, migrated from Flutter to 
 - Calculation across 3 periods
 - Formative and cognitive components
 - Real-time updates while typing
+- Grade prediction panel: minimum grade needed to pass, plus per-field and safety-grade hints
 
 ### Custom Grade Calculator
 - Add and remove custom evaluation fields

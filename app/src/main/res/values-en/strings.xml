@@ -35,6 +35,12 @@
     <string name="custom_percentage_progress_label">Percentage progress</string>
     <string name="passing_message">Congratulations, you passed the subject.</string>
     <string name="failing_message">You did not reach the minimum passing grade.</string>
+    <string name="prediction_title">Prediction to pass</string>
+    <string name="prediction_needed_format">You need at least %1$s in each of the %2$d remaining grades to pass.</string>
+    <string name="prediction_guaranteed">You\'ve already secured a pass! Any grade on the remaining ones keeps you passing.</string>
+    <string name="prediction_impossible">Even with a 5.0 on the remaining grades, you can\'t reach 3.0 to pass.</string>
+    <string name="prediction_field_hint_format">Suggested: ≥ %1$s</string>
+    <string name="prediction_secure_hint_format">With ≥ %1$s, you secure a pass.</string>
 
     <string name="custom_calculator_title">Custom Grade Calculator</string>
     <string name="min_passing_grade">Minimum passing grade</string>
@@ -99,6 +105,8 @@
     <string name="help_customize_note">You can customize percentages according to the evaluation system you use.</string>
     <string name="help_note_label">Note</string>
     <string name="help_predefined_percentages">Predefined percentages are based on the evaluation system of Universidad Americana - Colombia.</string>
+    <string name="help_prediction_title">Grade prediction</string>
+    <string name="help_prediction_summary">As you enter grades, a panel shows the minimum uniform grade you need in the empty fields to pass; each empty field also shows an individual suggestion, and if a single grade alone can secure a pass it\'s shown right below that field.</string>
 
     <string name="about_title">About</string>
     <string name="app_description">This application was created to help students calculate their final grades according to the evaluation system of Universidad Americana - Colombia.</string>
