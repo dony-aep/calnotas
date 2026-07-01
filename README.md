@@ -1,5 +1,7 @@
 # CalNotas - Android Native (Kotlin)
 
+**English** | [Español](README.es.md)
+
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Android%208.0%2B-green?style=flat-square&logo=android" alt="Platform Android 8.0+"/>
   <img src="https://img.shields.io/badge/Kotlin-2.2.10-purple?style=flat-square&logo=kotlin" alt="Kotlin"/>
