@@ -19,6 +19,7 @@
     <string name="invalid_number_message">Entrada inválida: ingresa un número válido.</string>
     <string name="invalid_range_message">Nota inválida: ingresa un valor entre 0 y 5.</string>
     <string name="ok">Aceptar</string>
+    <string name="cancel">Cancelar</string>
     <string name="back">Volver</string>
     <string name="clear">Limpiar</string>
     <string name="final_grade_1_format">Nota Final 1 [Corte 1]: %1$s</string>

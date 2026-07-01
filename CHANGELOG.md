@@ -14,6 +14,10 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Grade prediction documentation added to the Help screen under the default calculator section.
 - Ports the grade prediction feature from the web app (CalNotas Web v4.6.0) to keep both apps at feature parity.
 
+### Changed
+- The theme picker dialog now stages the selection instead of applying it immediately: choosing a radio option only previews the selection, and it's only applied when confirming with the new "Cancel"/"OK" buttons.
+- Switching theme (light/dark/system) now smoothly cross-fades every color instead of an instant hard cut, matching the app's existing spring-based motion.
+
 ### Fixed
 - Default calculator now rounds each "Corte" subtotal to 2 decimals before summing, matching the worked example already documented in the Help screen and the web app's calculation (previously summed raw, unrounded products).
 - Fixed low-contrast/washed-out colors across list rows (Settings, About, Help) and colored info/result cards (Help callouts, both calculators' result and prediction cards, Update screen). List rows now use `surfaceContainerHigh` instead of blending into their parent card's tone, and colored cards use solid container colors with matching explicit `on*Container` text colors instead of alpha-blended containers paired with full-opacity-calibrated text.

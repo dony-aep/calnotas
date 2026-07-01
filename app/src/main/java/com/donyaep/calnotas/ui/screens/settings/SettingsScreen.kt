@@ -299,6 +299,10 @@ private fun ThemeSelectionDialog(
     onDismiss: () -> Unit,
     onThemeSelected: (ThemeModePreference) -> Unit
 ) {
+    // Selecting a radio only stages the choice locally; it's only applied when the user
+    // confirms with the OK button, instead of applying (and dismissing) on every tap.
+    var pendingSelection by rememberSaveable { mutableStateOf(currentTheme) }
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(text = stringResource(R.string.choose_theme_title)) },
@@ -306,16 +310,21 @@ private fun ThemeSelectionDialog(
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 ThemeModePreference.entries.forEach { option ->
                     SelectionRow(
-                        selected = option == currentTheme,
+                        selected = option == pendingSelection,
                         text = stringResource(themeModeLabelRes(option)),
-                        onClick = { onThemeSelected(option) }
+                        onClick = { pendingSelection = option }
                     )
                 }
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = { onThemeSelected(pendingSelection) }) {
                 Text(stringResource(R.string.ok))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.cancel))
             }
         }
     )

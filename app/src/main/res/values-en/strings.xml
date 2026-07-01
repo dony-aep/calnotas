@@ -19,6 +19,7 @@
     <string name="invalid_number_message">Invalid input: enter a valid number.</string>
     <string name="invalid_range_message">Invalid grade: enter a value between 0 and 5.</string>
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="back">Back</string>
     <string name="clear">Clear</string>
     <string name="final_grade_1_format">Final Grade 1 [Cut 1]: %1$s</string>
