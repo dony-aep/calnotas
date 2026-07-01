@@ -16,9 +16,9 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Changed
 - The theme picker dialog now stages the selection instead of applying it immediately: choosing a radio option only previews the selection, and it's only applied when confirming with the new "Cancel"/"OK" buttons.
-- Switching theme (light/dark/system) now smoothly cross-fades every color instead of an instant hard cut, matching the app's existing spring-based motion.
 
 ### Fixed
+- Fixed content briefly shifting upward when switching theme (light/dark/system) from Settings. A cross-fade animation was tried for the color transition, but animating all `ColorScheme` roles simultaneously caused a recomposition storm that visibly jostled layout for a few frames; reverted to an instant theme switch, which is also the more predictable choice for this kind of toggle.
 - Default calculator now rounds each "Corte" subtotal to 2 decimals before summing, matching the worked example already documented in the Help screen and the web app's calculation (previously summed raw, unrounded products).
 - Fixed low-contrast/washed-out colors across list rows (Settings, About, Help) and colored info/result cards (Help callouts, both calculators' result and prediction cards, Update screen). List rows now use `surfaceContainerHigh` instead of blending into their parent card's tone, and colored cards use solid container colors with matching explicit `on*Container` text colors instead of alpha-blended containers paired with full-opacity-calibrated text.
 - Fixed literal double percent signs (`%%`) showing up in several Help screen strings that had no format arguments to trigger Android's escape collapsing.
