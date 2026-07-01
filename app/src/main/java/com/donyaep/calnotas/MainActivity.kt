@@ -5,10 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.donyaep.calnotas.ui.navigation.AppNavHost
 import com.donyaep.calnotas.ui.settings.AppSettingsViewModel
@@ -23,17 +20,6 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContent {
             val settings by appSettingsViewModel.uiState.collectAsStateWithLifecycle()
-
-            LaunchedEffect(settings.languageCode) {
-                val locales = if (settings.languageCode == "system") {
-                    LocaleListCompat.getEmptyLocaleList()
-                } else {
-                    LocaleListCompat.forLanguageTags(settings.languageCode)
-                }
-                AppCompatDelegate.setApplicationLocales(
-                    locales
-                )
-            }
 
             val useDarkTheme = when (settings.themeMode) {
                 ThemeModePreference.SYSTEM -> null

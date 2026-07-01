@@ -81,14 +81,14 @@
     <string name="help_default_header">Calculadora de Notas Predeterminada</string>
     <string name="help_default_body">Ingresa las seis notas y el resultado total se calcula automáticamente con el esquema 15/15/15/15/20/20.</string>
     <string name="help_custom_header">Calculadora Personalizada</string>
-    <string name="help_custom_body">Agrega campos dinámicos, define porcentajes y verifica que la suma sea exactamente 100%% para obtener el resultado final.</string>
+    <string name="help_custom_body">Agrega campos dinámicos, define porcentajes y verifica que la suma sea exactamente 100% para obtener el resultado final.</string>
     <string name="help_enter_grades">Ingresa las notas en los campos correspondientes, por ejemplo: 4.5 o 3.0.</string>
     <string name="help_update_2025_title">Actualización 2025</string>
-    <string name="help_update_2025_body">Los porcentajes se actualizaron según el nuevo sistema de evaluación. Ahora las notas 1-4 tienen un peso del 15%% cada una, y las notas 5-6 tienen un peso del 20%% cada una.</string>
+    <string name="help_update_2025_body" formatted="false">Los porcentajes se actualizaron según el nuevo sistema de evaluación. Ahora las notas 1-4 tienen un peso del 15% cada una, y las notas 5-6 tienen un peso del 20% cada una.</string>
     <string name="help_formative_title">Nota formativa</string>
-    <string name="help_formative_body">Evalúa la participación continua y tiene un peso del 15%% (Corte 1 y Corte 2) y 20%% (Corte 3).</string>
+    <string name="help_formative_body" formatted="false">Evalúa la participación continua y tiene un peso del 15% (Corte 1 y Corte 2) y 20% (Corte 3).</string>
     <string name="help_cognitive_title">Nota cognitiva</string>
-    <string name="help_cognitive_body">Evalúa el conocimiento adquirido y tiene un peso del 15%% (Corte 1 y Corte 2) y 20%% (Corte 3).</string>
+    <string name="help_cognitive_body" formatted="false">Evalúa el conocimiento adquirido y tiene un peso del 15% (Corte 1 y Corte 2) y 20% (Corte 3).</string>
     <string name="help_auto_calc">Después de ingresar las notas, los resultados se calculan automáticamente en tiempo real.</string>
     <string name="help_example_title">Ejemplo</string>
     <string name="help_example_description">Para una Nota Formativa de 4.5 y una Nota Cognitiva de 3.0:</string>
@@ -99,7 +99,7 @@
     <string name="help_remember_passing">Recuerda que la nota final total debe ser mayor o igual a 3.0 para aprobar.</string>
     <string name="help_custom_description">Ahora puedes usar la Calculadora Personalizada para ingresar tus propias notas y porcentajes según tus necesidades.</string>
     <string name="help_custom_point_1">Añade tantos campos como necesites para reflejar tu sistema de evaluación.</string>
-    <string name="help_custom_point_2">Asegúrate de que la suma de todos los porcentajes sea del 100%% para calcular correctamente la nota final total.</string>
+    <string name="help_custom_point_2">Asegúrate de que la suma de todos los porcentajes sea del 100% para calcular correctamente la nota final total.</string>
     <string name="help_custom_point_3">Después de ingresar tus campos personalizados, los resultados se calculan automáticamente en tiempo real.</string>
     <string name="help_custom_point_4">Ingresa la nota mínima para aprobar según tu sistema académico.</string>
     <string name="help_customize_note">Puedes personalizar los porcentajes según el sistema de evaluación que utilices.</string>

@@ -12,8 +12,14 @@ class UserPreferencesRepository(
 ) {
     private val dataStore = context.userPreferencesDataStore
 
+    // Synchronous mirror of theme_mode so the very first Compose frame can render with
+    // the persisted theme instead of a hardcoded default (avoids a startup flash).
+    private val syncPrefs = context.getSharedPreferences("calnotas_sync_prefs", Context.MODE_PRIVATE)
+
     val themeMode: Flow<String> = dataStore.data.map { prefs ->
-        prefs[PreferenceKeys.ThemeMode] ?: "system"
+        val value = prefs[PreferenceKeys.ThemeMode] ?: "system"
+        syncPrefs.edit().putString(KEY_THEME_MODE, value).apply()
+        value
     }
 
     val languageCode: Flow<String> = dataStore.data.map { prefs ->
@@ -24,7 +30,10 @@ class UserPreferencesRepository(
         prefs[PreferenceKeys.CustomCalculatorData]
     }
 
+    fun currentThemeModeSync(): String = syncPrefs.getString(KEY_THEME_MODE, "system") ?: "system"
+
     suspend fun setThemeMode(value: String) {
+        syncPrefs.edit().putString(KEY_THEME_MODE, value).apply()
         dataStore.edit { prefs ->
             prefs[PreferenceKeys.ThemeMode] = value
         }
@@ -40,5 +49,9 @@ class UserPreferencesRepository(
         dataStore.edit { prefs ->
             prefs[PreferenceKeys.CustomCalculatorData] = value
         }
+    }
+
+    private companion object {
+        const val KEY_THEME_MODE = "theme_mode"
     }
 }

@@ -81,14 +81,14 @@
     <string name="help_default_header">Default Grade Calculator</string>
     <string name="help_default_body">Enter six grades and the total is calculated automatically using 15/15/15/15/20/20 weighting.</string>
     <string name="help_custom_header">Custom Calculator</string>
-    <string name="help_custom_body">Add dynamic fields, define percentages and ensure the sum is exactly 100%% to get the final result.</string>
+    <string name="help_custom_body">Add dynamic fields, define percentages and ensure the sum is exactly 100% to get the final result.</string>
     <string name="help_enter_grades">Enter the grades in the corresponding fields, for example: 4.5 or 3.0.</string>
     <string name="help_update_2025_title">2025 update</string>
-    <string name="help_update_2025_body">Percentages were updated according to the new evaluation system. Grades 1-4 now weigh 15%% each, and grades 5-6 weigh 20%% each.</string>
+    <string name="help_update_2025_body" formatted="false">Percentages were updated according to the new evaluation system. Grades 1-4 now weigh 15% each, and grades 5-6 weigh 20% each.</string>
     <string name="help_formative_title">Formative grade</string>
-    <string name="help_formative_body">Evaluates continuous participation and weighs 15%% (Cut 1 and Cut 2) and 20%% (Cut 3).</string>
+    <string name="help_formative_body" formatted="false">Evaluates continuous participation and weighs 15% (Cut 1 and Cut 2) and 20% (Cut 3).</string>
     <string name="help_cognitive_title">Cognitive grade</string>
-    <string name="help_cognitive_body">Evaluates acquired knowledge and weighs 15%% (Cut 1 and Cut 2) and 20%% (Cut 3).</string>
+    <string name="help_cognitive_body" formatted="false">Evaluates acquired knowledge and weighs 15% (Cut 1 and Cut 2) and 20% (Cut 3).</string>
     <string name="help_auto_calc">After entering grades, results are calculated automatically in real time.</string>
     <string name="help_example_title">Example</string>
     <string name="help_example_description">For a Formative Grade of 4.5 and a Cognitive Grade of 3.0:</string>
@@ -99,7 +99,7 @@
     <string name="help_remember_passing">Remember that the total final grade must be greater than or equal to 3.0 to pass.</string>
     <string name="help_custom_description">You can use the Custom Calculator to enter your own grades and percentages according to your needs.</string>
     <string name="help_custom_point_1">Add as many fields as needed to reflect your evaluation system.</string>
-    <string name="help_custom_point_2">Make sure the sum of all percentages is 100%% to correctly calculate the total final grade.</string>
+    <string name="help_custom_point_2">Make sure the sum of all percentages is 100% to correctly calculate the total final grade.</string>
     <string name="help_custom_point_3">After entering your custom fields, results are calculated automatically in real time.</string>
     <string name="help_custom_point_4">Enter the minimum passing grade according to your academic system.</string>
     <string name="help_customize_note">You can customize percentages according to the evaluation system you use.</string>
