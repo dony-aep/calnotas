@@ -1,5 +1,7 @@
 # Changelog
 
+**English** | [Español](CHANGELOG.es.md)
+
 All notable changes to CalNotas are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
@@ -18,7 +20,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - The theme picker dialog now stages the selection instead of applying it immediately: choosing a radio option only previews the selection, and it's only applied when confirming with the new "Cancel"/"OK" buttons.
 
 ### Fixed
-- Fixed content briefly shifting upward and back when switching theme (light/dark/system) from Settings. The `locale` fix for the language flicker didn't cover `uiMode`, so an actual theme change still triggered a full Activity recreate (invisible, but the collapsible top bar's scroll/height state briefly reset mid-rebuild, causing the jump). Added `uiMode` to `MainActivity`'s `android:configChanges` alongside `locale`, so theme changes are handled the same way: no recreate, just recomposition. (A cross-fade animation for the color transition was also tried and reverted — it caused a separate, similar-looking jump from its own recomposition load, but the recreate was the real root cause.)
+- Fixed content briefly shifting upward and back when switching theme (light/dark/system) from Settings. The `locale` fix for the language flicker didn't cover `uiMode`, so an actual theme change still triggered a full Activity recreate (invisible, but the collapsible top bar's scroll/height state briefly reset mid-rebuild, causing the jump). Added `uiMode` to `MainActivity`'s `android:configChanges` alongside `locale`, so theme changes are handled the same way: no recreate, just recomposition.
 - Default calculator now rounds each "Corte" subtotal to 2 decimals before summing, matching the worked example already documented in the Help screen and the web app's calculation (previously summed raw, unrounded products).
 - Fixed low-contrast/washed-out colors across list rows (Settings, About, Help) and colored info/result cards (Help callouts, both calculators' result and prediction cards, Update screen). List rows now use `surfaceContainerHigh` instead of blending into their parent card's tone, and colored cards use solid container colors with matching explicit `on*Container` text colors instead of alpha-blended containers paired with full-opacity-calibrated text.
 - Fixed literal double percent signs (`%%`) showing up in several Help screen strings that had no format arguments to trigger Android's escape collapsing.
