@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Approximate M3 baseline surface tones, used only for the native Activity starting
+         window (drawn by the OS before Compose renders) so it doesn't default to black/white. -->
+    <color name="window_background">#FFFBFE</color>
 </resources>

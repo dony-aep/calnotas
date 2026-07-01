@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Approximate M3 baseline dark surface tone, used only for the native Activity starting
+         window (drawn by the OS before Compose renders) so it doesn't default to black. -->
+    <color name="window_background">#1C1B1F</color>
+</resources>

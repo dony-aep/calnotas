@@ -55,6 +55,7 @@ class AppSettingsViewModel(
     }
 
     fun setThemeMode(mode: ThemeModePreference) {
+        AppCompatDelegate.setDefaultNightMode(mode.toAppCompatNightMode())
         viewModelScope.launch {
             userPreferencesRepository.setThemeMode(mode.key)
         }
