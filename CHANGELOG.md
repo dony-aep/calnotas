@@ -9,6 +9,8 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-06-30
+
 ### Added
 - Grade prediction panel for the default calculator: appears automatically as grades are entered, showing the minimum uniform grade needed across all remaining empty fields to reach the passing score (3.0).
 - Per-field prediction hint (`Sugerido: ≥ X.X` / `Suggested: ≥ X.X`) displayed under each empty input as a quick inline reference.
@@ -27,6 +29,8 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Fixed a startup flash/flicker where the app briefly rendered in the system language and theme before switching to the saved preference. Language changes no longer trigger a full Activity recreate on cold start (adopts AppCompat's `autoStoreLocales`, which restores the persisted locale before the Activity is even created); the theme preference's first Compose frame is now seeded from a synchronous cache instead of a hardcoded default.
 - Fixed a black screen flash that appeared briefly when changing the app language from Settings while the app was running (confirmed via frame-by-frame screen recording analysis). The Activity no longer recreates on a live language change (`configChanges="locale"`); Compose recomposes the UI with the new language in place instead. Also added explicit light/dark `windowBackground` colors and synced the app's theme choice to `AppCompatDelegate`'s native day/night mode so any native window transition (e.g. app launch) uses a themed background instead of defaulting to black.
 - Fixed a rare visual glitch (confirmed via a real-time screenshot) where the theme picker dialog could briefly render with the previous theme's colors while the screen behind it had already switched, right as the dialog was dismissing. `AlertDialog` freezes its content while playing its exit animation, so calling `AppCompatDelegate.setDefaultNightMode` in the same instant the dialog starts dismissing could race with that frozen frame. The native theme switch is now deferred by one frame so the dialog's exit animation always captures a stable, already-correct frame.
+
+---
 
 ## [2.0.0] - 2026-04-29
 

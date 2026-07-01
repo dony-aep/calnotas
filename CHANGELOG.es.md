@@ -9,6 +9,8 @@ y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/spec/v2
 
 ## [Sin publicar]
 
+## [2.1.0] - 2026-06-30
+
 ### Añadido
 - Panel de predicción de nota para la calculadora por defecto: aparece automáticamente a medida que se ingresan notas, mostrando la nota uniforme mínima necesaria en todos los campos vacíos restantes para alcanzar la nota de aprobación (3.0).
 - Sugerencia de predicción por campo (`Sugerido: ≥ X.X`) mostrada debajo de cada campo vacío como referencia rápida.
@@ -27,6 +29,8 @@ y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/spec/v2
 - Se corrigió un destello/parpadeo al iniciar en el que la aplicación se renderizaba brevemente en el idioma y tema del sistema antes de cambiar a la preferencia guardada. Los cambios de idioma ya no generan una recreación completa de la Activity en un inicio en frío (se adopta `autoStoreLocales` de AppCompat, que restaura el idioma guardado antes de que la Activity siquiera se cree); el primer frame de Compose para el tema ahora se inicializa desde una caché síncrona en lugar de un valor por defecto fijo.
 - Se corrigió un destello de pantalla en negro que aparecía brevemente al cambiar el idioma de la aplicación desde Ajustes mientras la aplicación estaba en ejecución (confirmado mediante análisis de grabación de pantalla cuadro por cuadro). La Activity ya no se recrea ante un cambio de idioma en caliente (`configChanges="locale"`); en su lugar, Compose recompone la interfaz con el nuevo idioma. También se añadieron colores explícitos de `windowBackground` claro/oscuro y se sincronizó la elección de tema de la aplicación con el modo día/noche nativo de `AppCompatDelegate`, de modo que cualquier transición de ventana nativa (por ejemplo, al iniciar la app) use un fondo acorde al tema en lugar de negro por defecto.
 - Se corrigió un glitch visual poco frecuente (confirmado mediante una captura de pantalla en tiempo real) en el que el diálogo de selección de tema podía renderizarse brevemente con los colores del tema anterior mientras la pantalla detrás ya había cambiado, justo cuando el diálogo se estaba cerrando. `AlertDialog` congela su contenido mientras reproduce su animación de salida, por lo que llamar a `AppCompatDelegate.setDefaultNightMode` en el mismo instante en que el diálogo comienza a cerrarse podía competir con ese frame congelado. El cambio de tema nativo ahora se difiere un frame para que la animación de salida del diálogo siempre capture un frame estable y ya correcto.
+
+---
 
 ## [2.0.0] - 2026-04-29
 
