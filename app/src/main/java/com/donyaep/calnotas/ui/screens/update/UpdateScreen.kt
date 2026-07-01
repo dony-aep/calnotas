@@ -147,7 +147,7 @@ fun UpdateScreen(
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = MaterialTheme.shapes.extraLarge,
-                        color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.55f),
+                        color = MaterialTheme.colorScheme.errorContainer,
                         tonalElevation = 0.dp
                     ) {
                         Column(
@@ -175,12 +175,13 @@ fun UpdateScreen(
                                 text = stringResource(updateErrorMessageRes(uiState.errorKey)),
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.SemiBold,
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Center,
+                                color = MaterialTheme.colorScheme.onErrorContainer
                             )
                             Text(
                                 text = stringResource(R.string.try_again_later),
                                 textAlign = TextAlign.Center,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.75f),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             Spacer(Modifier.height(4.dp))
@@ -206,13 +207,22 @@ fun UpdateScreen(
                 val updateAvailable = viewModel.isUpdateAvailable()
 
                 val targetStatusColor = if (updateAvailable)
-                    MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.70f)
+                    MaterialTheme.colorScheme.secondaryContainer
                 else
-                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.70f)
+                    MaterialTheme.colorScheme.primaryContainer
                 val statusCardColor by animateColorAsState(
                     targetValue = targetStatusColor,
                     animationSpec = spring(stiffness = Spring.StiffnessLow),
                     label = "status_card_color"
+                )
+                val targetStatusContentColor = if (updateAvailable)
+                    MaterialTheme.colorScheme.onSecondaryContainer
+                else
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                val statusCardContentColor by animateColorAsState(
+                    targetValue = targetStatusContentColor,
+                    animationSpec = spring(stiffness = Spring.StiffnessLow),
+                    label = "status_card_content_color"
                 )
 
                 // Hero card: estado actual
@@ -252,13 +262,14 @@ fun UpdateScreen(
                                    else stringResource(R.string.up_to_date),
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            color = statusCardContentColor
                         )
                         Text(
                             text = if (updateAvailable) stringResource(R.string.new_version_available)
                                    else stringResource(R.string.you_have_latest_version),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = statusCardContentColor.copy(alpha = 0.75f),
                             textAlign = TextAlign.Center
                         )
                     }

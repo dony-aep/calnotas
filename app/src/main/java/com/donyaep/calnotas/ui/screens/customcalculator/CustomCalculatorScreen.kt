@@ -320,13 +320,23 @@ fun CustomCalculatorScreen(
 
                     val targetContainerColor = when {
                         uiState.percentageValidation != PercentageValidation.NONE -> MaterialTheme.colorScheme.surfaceContainerHigh
-                        passed -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.60f)
-                        else -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.60f)
+                        passed -> MaterialTheme.colorScheme.primaryContainer
+                        else -> MaterialTheme.colorScheme.errorContainer
                     }
                     val totalContainerColor by animateColorAsState(
                         targetValue = targetContainerColor,
                         animationSpec = spring(stiffness = Spring.StiffnessLow),
                         label = "result_card_color"
+                    )
+                    val targetResultContentColor = when {
+                        uiState.percentageValidation != PercentageValidation.NONE -> MaterialTheme.colorScheme.onSurface
+                        passed -> MaterialTheme.colorScheme.onPrimaryContainer
+                        else -> MaterialTheme.colorScheme.onErrorContainer
+                    }
+                    val resultContentColor by animateColorAsState(
+                        targetValue = targetResultContentColor,
+                        animationSpec = spring(stiffness = Spring.StiffnessLow),
+                        label = "result_card_content_color"
                     )
 
                     Surface(
@@ -345,13 +355,15 @@ fun CustomCalculatorScreen(
                             Text(
                                 text = stringResource(R.string.total_final_grade),
                                 style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.SemiBold
+                                fontWeight = FontWeight.SemiBold,
+                                color = resultContentColor
                             )
 
                             Text(
                                 text = uiState.totalFinalGrade.format(),
                                 style = MaterialTheme.typography.displayLarge,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                color = resultContentColor
                             )
 
                             if (uiState.percentageValidation != PercentageValidation.NONE) {
@@ -386,7 +398,7 @@ fun CustomCalculatorScreen(
                                         stringResource(R.string.failing_message)
                                     },
                                     textAlign = TextAlign.Center,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = resultContentColor.copy(alpha = 0.75f)
                                 )
                             }
                         }

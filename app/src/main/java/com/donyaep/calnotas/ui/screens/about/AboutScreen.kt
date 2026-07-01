@@ -155,7 +155,7 @@ fun AboutScreen(onBack: () -> Unit) {
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomStart = 4.dp, bottomEnd = 4.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLow,
+                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
                         tonalElevation = 1.dp
                     ) {
                         ListItem(
@@ -177,7 +177,7 @@ fun AboutScreen(onBack: () -> Unit) {
                             context.startActivity(intent)
                         },
                         shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp, bottomStart = 16.dp, bottomEnd = 16.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLow,
+                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
                         tonalElevation = 1.dp
                     ) {
                         ListItem(

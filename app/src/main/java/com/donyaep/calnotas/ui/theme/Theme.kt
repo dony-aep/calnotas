@@ -40,6 +40,9 @@ fun CalNotasTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
+        // NOTE: expressiveDarkColorScheme() does not exist yet in material3 1.5.0-alpha08
+        // (the version pinned in gradle/libs.versions.toml) — only the light variant ships
+        // so far. Falls back to the standard darkColorScheme() until it's available.
         darkTheme -> darkColorScheme()
         else -> expressiveLightColorScheme()
     }

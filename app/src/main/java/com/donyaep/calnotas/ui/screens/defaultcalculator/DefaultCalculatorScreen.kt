@@ -128,13 +128,23 @@ fun DefaultCalculatorScreen(
             val completionProgress = completedInputs / 6f
             val targetContainerColor = when {
                 !uiState.hasAnyInput -> MaterialTheme.colorScheme.surfaceContainerLow
-                passed -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.60f)
-                else -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.60f)
+                passed -> MaterialTheme.colorScheme.primaryContainer
+                else -> MaterialTheme.colorScheme.errorContainer
             }
             val totalContainerColor by animateColorAsState(
                 targetValue = targetContainerColor,
                 animationSpec = spring(stiffness = Spring.StiffnessLow),
                 label = "result_card_color"
+            )
+            val targetResultContentColor = when {
+                !uiState.hasAnyInput -> MaterialTheme.colorScheme.onSurface
+                passed -> MaterialTheme.colorScheme.onPrimaryContainer
+                else -> MaterialTheme.colorScheme.onErrorContainer
+            }
+            val resultContentColor by animateColorAsState(
+                targetValue = targetResultContentColor,
+                animationSpec = spring(stiffness = Spring.StiffnessLow),
+                label = "result_card_content_color"
             )
 
             Column(
@@ -299,11 +309,13 @@ fun DefaultCalculatorScreen(
                         Text(
                             text = stringResource(R.string.total_final_grade),
                             style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
+                            color = resultContentColor
                         )
                         Text(
                             text = uiState.total.format(),
-                            style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold)
+                            style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold),
+                            color = resultContentColor
                         )
 
                         if (uiState.hasAnyInput) {
@@ -314,7 +326,7 @@ fun DefaultCalculatorScreen(
                                     stringResource(R.string.failing_message)
                                 },
                                 textAlign = TextAlign.Center,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                color = resultContentColor.copy(alpha = 0.75f),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
@@ -326,12 +338,21 @@ fun DefaultCalculatorScreen(
                 ) {
                     val predictionContainerColor by animateColorAsState(
                         targetValue = when (uiState.predictionState) {
-                            PredictionState.GUARANTEED -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.60f)
-                            PredictionState.IMPOSSIBLE -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.60f)
-                            else -> MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.60f)
+                            PredictionState.GUARANTEED -> MaterialTheme.colorScheme.primaryContainer
+                            PredictionState.IMPOSSIBLE -> MaterialTheme.colorScheme.errorContainer
+                            else -> MaterialTheme.colorScheme.tertiaryContainer
                         },
                         animationSpec = spring(stiffness = Spring.StiffnessLow),
                         label = "prediction_card_color"
+                    )
+                    val predictionContentColor by animateColorAsState(
+                        targetValue = when (uiState.predictionState) {
+                            PredictionState.GUARANTEED -> MaterialTheme.colorScheme.onPrimaryContainer
+                            PredictionState.IMPOSSIBLE -> MaterialTheme.colorScheme.onErrorContainer
+                            else -> MaterialTheme.colorScheme.onTertiaryContainer
+                        },
+                        animationSpec = spring(stiffness = Spring.StiffnessLow),
+                        label = "prediction_card_content_color"
                     )
 
                     Surface(
@@ -350,14 +371,16 @@ fun DefaultCalculatorScreen(
                             Text(
                                 text = stringResource(R.string.prediction_title),
                                 style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.SemiBold
+                                fontWeight = FontWeight.SemiBold,
+                                color = predictionContentColor
                             )
 
                             when (uiState.predictionState) {
                                 PredictionState.POSSIBLE -> {
                                     Text(
                                         text = uiState.requiredMinGrade.formatOneDecimal(),
-                                        style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold)
+                                        style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold),
+                                        color = predictionContentColor
                                     )
                                     Text(
                                         text = stringResource(
@@ -366,7 +389,7 @@ fun DefaultCalculatorScreen(
                                             uiState.emptyFieldsCount
                                         ),
                                         textAlign = TextAlign.Center,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        color = predictionContentColor.copy(alpha = 0.75f),
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                 }
@@ -374,7 +397,7 @@ fun DefaultCalculatorScreen(
                                     Text(
                                         text = stringResource(R.string.prediction_guaranteed),
                                         textAlign = TextAlign.Center,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        color = predictionContentColor.copy(alpha = 0.75f),
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                 }
@@ -382,7 +405,7 @@ fun DefaultCalculatorScreen(
                                     Text(
                                         text = stringResource(R.string.prediction_impossible),
                                         textAlign = TextAlign.Center,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        color = predictionContentColor.copy(alpha = 0.75f),
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                 }

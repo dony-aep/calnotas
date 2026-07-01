@@ -128,7 +128,7 @@ fun HelpScreen(onBack: () -> Unit) {
 
                     Surface(
                         shape = MaterialTheme.shapes.medium,
-                        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.50f)
+                        color = MaterialTheme.colorScheme.secondaryContainer
                     ) {
                         Column(
                             modifier = Modifier.padding(14.dp),
@@ -158,7 +158,7 @@ fun HelpScreen(onBack: () -> Unit) {
                             Surface(
                                 modifier = Modifier.fillMaxWidth(),
                                 shape = segmentedShape(index, helpItems.size - 1),
-                                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                                color = MaterialTheme.colorScheme.surfaceContainerHigh,
                                 tonalElevation = 1.dp
                             ) {
                                 ListItem(
@@ -202,7 +202,7 @@ fun HelpScreen(onBack: () -> Unit) {
 
                     Surface(
                         shape = MaterialTheme.shapes.medium,
-                        color = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.50f)
+                        color = MaterialTheme.colorScheme.tertiaryContainer
                     ) {
                         Text(
                             text = stringResource(R.string.help_remember_passing),
@@ -234,7 +234,7 @@ fun HelpScreen(onBack: () -> Unit) {
                             Surface(
                                 modifier = Modifier.fillMaxWidth(),
                                 shape = segmentedShape(index, customItems.size - 1),
-                                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                                color = MaterialTheme.colorScheme.surfaceContainerHigh,
                                 tonalElevation = 1.dp
                             ) {
                                 ListItem(
@@ -248,7 +248,7 @@ fun HelpScreen(onBack: () -> Unit) {
 
                     Surface(
                         shape = MaterialTheme.shapes.medium,
-                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f)
+                        color = MaterialTheme.colorScheme.primaryContainer
                     ) {
                         Column(
                             modifier = Modifier.padding(14.dp),
@@ -257,11 +257,11 @@ fun HelpScreen(onBack: () -> Unit) {
                             Text(
                                 text = stringResource(R.string.help_note_label),
                                 fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                             Text(
                                 text = stringResource(R.string.help_customize_note),
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }
                     }
@@ -270,7 +270,7 @@ fun HelpScreen(onBack: () -> Unit) {
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     shape = MaterialTheme.shapes.extraLarge,
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     tonalElevation = 1.dp
                 ) {
                     ListItem(

@@ -244,7 +244,7 @@ private fun SettingsNavigationItem(
         modifier = Modifier.fillMaxWidth(),
         onClick = onClick,
         shape = segmentedItemShape(index = index, lastIndex = lastIndex),
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
         tonalElevation = 1.dp
     ) {
         ListItem(
