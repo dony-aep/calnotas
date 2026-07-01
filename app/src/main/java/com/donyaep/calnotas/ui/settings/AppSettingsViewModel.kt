@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.donyaep.calnotas.data.AppContainer
 import com.donyaep.calnotas.data.repository.UserPreferencesRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -55,8 +56,12 @@ class AppSettingsViewModel(
     }
 
     fun setThemeMode(mode: ThemeModePreference) {
-        AppCompatDelegate.setDefaultNightMode(mode.toAppCompatNightMode())
         viewModelScope.launch {
+            // Defer the native day/night switch by a frame so a dialog dismissing right now
+            // (the theme picker) finishes its exit-animation snapshot against the still-current
+            // theme, instead of racing the switch and freezing mid-fade on a mismatched frame.
+            delay(16)
+            AppCompatDelegate.setDefaultNightMode(mode.toAppCompatNightMode())
             userPreferencesRepository.setThemeMode(mode.key)
         }
     }
