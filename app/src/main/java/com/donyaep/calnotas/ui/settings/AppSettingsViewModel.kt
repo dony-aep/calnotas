@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.donyaep.calnotas.data.AppContainer
 import com.donyaep.calnotas.data.repository.UserPreferencesRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -36,7 +35,7 @@ class AppSettingsViewModel(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = AppSettingsUiState(
-            themeMode = ThemeModePreference.fromKey(userPreferencesRepository.currentThemeModeSync()),
+            themeMode = ThemeModePreference.fromKey(userPreferencesRepository.themeMode.value),
             languageCode = _languageCode.value
         )
     )
@@ -56,12 +55,11 @@ class AppSettingsViewModel(
     }
 
     fun setThemeMode(mode: ThemeModePreference) {
+        // viewModelScope corre en Main.immediate: el tema en memoria cambia antes de volver de
+        // launch, y solo la escritura en disco queda pendiente. AppCompat no se toca aquí: su
+        // cambio de configuración bloqueaba el hilo principal ~115 ms justo después del cambio.
+        // MainActivity se lo pasa en onStop, cuando ya no se ve.
         viewModelScope.launch {
-            // Defer the native day/night switch by a frame so a dialog dismissing right now
-            // (the theme picker) finishes its exit-animation snapshot against the still-current
-            // theme, instead of racing the switch and freezing mid-fade on a mismatched frame.
-            delay(16)
-            AppCompatDelegate.setDefaultNightMode(mode.toAppCompatNightMode())
             userPreferencesRepository.setThemeMode(mode.key)
         }
     }

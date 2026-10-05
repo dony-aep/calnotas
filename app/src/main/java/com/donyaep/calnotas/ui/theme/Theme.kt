@@ -1,9 +1,9 @@
 package com.donyaep.calnotas.ui.theme
 
 import android.app.Activity
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MotionScheme
 import androidx.compose.material3.darkColorScheme
@@ -15,6 +15,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
@@ -25,14 +27,22 @@ private val LocalAppDarkTheme = compositionLocalOf { false }
 @ReadOnlyComposable
 fun isAppInDarkTheme(): Boolean = LocalAppDarkTheme.current
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun CalNotasTheme(
     useDarkTheme: Boolean? = null,
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val darkTheme = useDarkTheme ?: isSystemInDarkTheme()
+    // En «Predeterminado del sistema» se pregunta al sistema y no a la configuración de la
+    // actividad: al volver de un tema forzado, AppCompat no le hace llegar a Compose el uiMode
+    // del sistema (la actividad declara uiMode en configChanges) y la app se quedaba en el tema
+    // anterior hasta reiniciarla. La configuración actual solo sirve de clave, para recalcular
+    // cuando el sistema cambia de modo con la app abierta.
+    val configuration = LocalConfiguration.current
+    val darkTheme = remember(useDarkTheme, configuration) {
+        useDarkTheme ?: ((Resources.getSystem().configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+            Configuration.UI_MODE_NIGHT_YES)
+    }
 
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -40,9 +50,7 @@ fun CalNotasTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        // NOTE: expressiveDarkColorScheme() does not exist yet in material3 1.5.0-alpha08
-        // (the version pinned in gradle/libs.versions.toml) — only the light variant ships
-        // so far. Falls back to the standard darkColorScheme() until it's available.
+        // material3 solo trae la variante expresiva clara; para el modo oscuro el par es darkColorScheme().
         darkTheme -> darkColorScheme()
         else -> expressiveLightColorScheme()
     }

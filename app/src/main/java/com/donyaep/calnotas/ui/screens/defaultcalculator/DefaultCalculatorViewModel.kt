@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.update
 import java.math.BigDecimal
 import java.math.RoundingMode
 
+// Pesos en orden [formativa1, cognitiva1, formativa2, cognitiva2, formativa3, cognitiva3].
+// El inicio los dibuja a escala, así que el plan se define solo aquí.
+internal val StandardPlanWeights = doubleArrayOf(0.15, 0.15, 0.15, 0.15, 0.20, 0.20)
+
 class DefaultCalculatorViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(DefaultCalculatorUiState())
     val uiState: StateFlow<DefaultCalculatorUiState> = _uiState.asStateFlow()
@@ -89,8 +93,7 @@ class DefaultCalculatorViewModel : ViewModel() {
         )
     }
 
-    // Pesos en orden [formativa1, cognitiva1, formativa2, cognitiva2, formativa3, cognitiva3].
-    private val weights = doubleArrayOf(0.15, 0.15, 0.15, 0.15, 0.20, 0.20)
+    private val weights = StandardPlanWeights
 
     // Matches JS's toFixed(2) (round-half-up) used by the web app; kotlin.math.round ties to even,
     // which would give 1.12 instead of 1.13 for the documented 4.5/3.0 example.

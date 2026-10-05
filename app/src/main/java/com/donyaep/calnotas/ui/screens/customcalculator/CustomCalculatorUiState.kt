@@ -24,5 +24,6 @@ data class CustomCalculatorUiState(
     val totalFinalGrade: Double = 0.0,
     val totalPercentage: Double = 0.0,
     val percentageValidation: PercentageValidation = PercentageValidation.NONE,
-    val flashMessage: CustomFlashMessage? = null
+    val flashMessage: CustomFlashMessage? = null,
+    val hasSavedData: Boolean = false
 )

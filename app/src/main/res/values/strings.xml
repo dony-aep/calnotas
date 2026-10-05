@@ -2,10 +2,16 @@
     <string name="app_name">CalNotas</string>
 
     <string name="home_title">CalNotas</string>
-    <string name="home_welcome_title">¡Bienvenido!</string>
-    <string name="home_welcome_subtitle">Selecciona una calculadora para comenzar.</string>
-    <string name="home_default_description">Calcula tus notas con el formato estándar.</string>
-    <string name="home_custom_description">Crea tu propia calculadora con campos personalizados.</string>
+    <string name="home_greeting_morning">Buenos días</string>
+    <string name="home_greeting_afternoon">Buenas tardes</string>
+    <string name="home_greeting_evening">Buenas noches</string>
+    <string name="home_question_format">¿Qué calculamos %1$s?</string>
+    <string name="home_question_highlight">hoy</string>
+    <string name="home_default_action">Calcular\nmis notas</string>
+    <string name="home_default_plan_format">%1$d cortes · %2$s</string>
+    <string name="home_custom_action">Armar mi\ncalculadora</string>
+    <string name="home_custom_saved_format">Guardada: %1$s</string>
+    <string name="home_custom_hint">Con tus propios porcentajes</string>
     <string name="open_menu">Abrir menú</string>
     <string name="grade_calculator">Calculadora de Notas</string>
     <string name="custom_grade_calculator">Calculadora Personalizada</string>
@@ -22,34 +28,20 @@
     <string name="cancel">Cancelar</string>
     <string name="back">Volver</string>
     <string name="clear">Limpiar</string>
-    <string name="final_grade_1_format">Nota Final 1 [Corte 1]: %1$s</string>
-    <string name="final_grade_2_format">Nota Final 2 [Corte 2]: %1$s</string>
-    <string name="final_grade_3_format">Nota Final 3 [Corte 3]: %1$s</string>
-    <string name="grade_1_formative">Nota 1 [Formativa]</string>
-    <string name="grade_2_cognitive">Nota 2 [Cognitiva]</string>
-    <string name="grade_3_formative">Nota 3 [Formativa]</string>
-    <string name="grade_4_cognitive">Nota 4 [Cognitiva]</string>
-    <string name="grade_5_formative">Nota 5 [Formativa]</string>
-    <string name="grade_6_cognitive">Nota 6 [Cognitiva]</string>
-    <string name="total_final_grade">Nota Final Total</string>
-    <string name="default_completion_label">Campos completados</string>
-    <string name="custom_percentage_progress_label">Progreso de porcentaje</string>
     <string name="passing_message">Felicidades, aprobaste la asignatura.</string>
     <string name="failing_message">No alcanzaste la nota mínima de aprobación.</string>
-    <string name="prediction_title">Predicción para aprobar</string>
     <string name="prediction_needed_format">Necesitas al menos %1$s en cada una de las %2$d notas restantes para aprobar.</string>
     <string name="prediction_guaranteed">¡Ya aseguraste la aprobación! Cualquier nota en las restantes te mantiene aprobado.</string>
     <string name="prediction_impossible">Aunque saques 5.0 en las notas restantes, no alcanzas el 3.0 para aprobar.</string>
     <string name="prediction_field_hint_format">Sugerido: ≥ %1$s</string>
     <string name="prediction_secure_hint_format">Con ≥ %1$s aseguras aprobar.</string>
 
-    <string name="custom_calculator_title">Calculadora Personalizada</string>
-    <string name="min_passing_grade">Nota minima para aprobar</string>
-    <string name="default_value_hint">Valor por defecto: 3.0</string>
-    <string name="no_fields_added">Aún no hay campos. Usa + para agregar uno.</string>
+    <string name="min_passing_grade">Nota mínima para aprobar</string>
     <string name="add_field">Agregar campo</string>
     <string name="save_calculator">Guardar calculadora</string>
     <string name="reset">Reiniciar</string>
+    <string name="reset_calculator_title">¿Reiniciar la calculadora?</string>
+    <string name="reset_calculator_message">Se borrarán todos los campos y la calculadora guardada. No se puede deshacer.</string>
     <string name="field_prefix">Campo %1$d</string>
     <string name="field_name">Nombre del campo</string>
     <string name="percentage">Porcentaje</string>
@@ -57,81 +49,111 @@
     <string name="remove_field">Eliminar campo</string>
     <string name="calculator_saved">Calculadora guardada.</string>
     <string name="invalid_grade_short">Nota inválida: usa valores entre 0 y 5.</string>
-    <string name="percentage_exceeded_format">La suma de porcentajes es %1$s%%. No puede exceder el 100%%.</string>
-    <string name="percentage_insufficient_format">La suma de porcentajes es %1$s%%. Debe ser 100%%.</string>
 
     <string name="settings_title">Configuración</string>
-    <string name="settings_screen_subtitle">Personaliza la app según tu preferencia de tema e idioma.</string>
-    <string name="display">Pantalla</string>
+    <string name="settings_screen_subtitle">Elige cómo se ve CalNotas y en qué idioma.</string>
     <string name="theme">Tema</string>
-    <string name="app_language">Idioma de la aplicación</string>
-    <string name="choose_theme_title">Selecciona un tema</string>
-    <string name="choose_language_title">Selecciona un idioma</string>
-    <string name="settings_choose_theme_hint">Selecciona el tema que prefieras para la aplicación.</string>
-    <string name="settings_choose_language_hint">Selecciona el idioma que prefieras para la aplicación.</string>
-    <string name="system_default">Predeterminado del sistema</string>
+    <string name="app_language">Idioma</string>
+    <string name="system_short">Sistema</string>
+    <string name="settings_language_hint">«%1$s» usa el idioma de tu teléfono.</string>
     <string name="light">Claro</string>
     <string name="dark">Oscuro</string>
     <string name="spanish">Español</string>
     <string name="english">English</string>
     <string name="support">Soporte</string>
     <string name="view_help_info">Ver información de ayuda</string>
-    <string name="check_updates_desc">Descarga la última versión de la aplicación</string>
+    <string name="check_updates_desc">Descarga la última versión</string>
+    <string name="about_summary_format">CalNotas · versión %1$s</string>
 
     <string name="help_title">Ayuda</string>
-    <string name="help_default_header">Calculadora de Notas Predeterminada</string>
-    <string name="help_default_body">Ingresa las seis notas y el resultado total se calcula automáticamente con el esquema 15/15/15/15/20/20.</string>
-    <string name="help_custom_header">Calculadora Personalizada</string>
-    <string name="help_custom_body">Agrega campos dinámicos, define porcentajes y verifica que la suma sea exactamente 100% para obtener el resultado final.</string>
-    <string name="help_enter_grades">Ingresa las notas en los campos correspondientes, por ejemplo: 4.5 o 3.0.</string>
-    <string name="help_update_2025_title">Actualización 2025</string>
-    <string name="help_update_2025_body" formatted="false">Los porcentajes se actualizaron según el nuevo sistema de evaluación. Ahora las notas 1-4 tienen un peso del 15% cada una, y las notas 5-6 tienen un peso del 20% cada una.</string>
     <string name="help_formative_title">Nota formativa</string>
-    <string name="help_formative_body" formatted="false">Evalúa la participación continua y tiene un peso del 15% (Corte 1 y Corte 2) y 20% (Corte 3).</string>
+    <string name="help_formative_body" formatted="false">Mide tu participación continua. Pesa 15 % en los cortes 1 y 2, y 20 % en el corte 3.</string>
     <string name="help_cognitive_title">Nota cognitiva</string>
-    <string name="help_cognitive_body" formatted="false">Evalúa el conocimiento adquirido y tiene un peso del 15% (Corte 1 y Corte 2) y 20% (Corte 3).</string>
-    <string name="help_auto_calc">Después de ingresar las notas, los resultados se calculan automáticamente en tiempo real.</string>
-    <string name="help_example_title">Ejemplo</string>
-    <string name="help_example_description">Para una Nota Formativa de 4.5 y una Nota Cognitiva de 3.0:</string>
-    <string name="help_final_grade_1_example">Nota Final 1 (Corte 1): (4.5 * 0.15) + (3.0 * 0.15) = 0.675 + 0.45 = 1.13</string>
-    <string name="help_final_grade_2_example">Nota Final 2 (Corte 2): (4.5 * 0.15) + (3.0 * 0.15) = 0.675 + 0.45 = 1.13</string>
-    <string name="help_final_grade_3_example">Nota Final 3 (Corte 3): (4.5 * 0.20) + (3.0 * 0.20) = 0.9 + 0.6 = 1.5</string>
-    <string name="help_total_final_grade_example">Nota Final Total: 1.13 + 1.13 + 1.5 = 3.76</string>
-    <string name="help_remember_passing">Recuerda que la nota final total debe ser mayor o igual a 3.0 para aprobar.</string>
-    <string name="help_custom_description">Ahora puedes usar la Calculadora Personalizada para ingresar tus propias notas y porcentajes según tus necesidades.</string>
-    <string name="help_custom_point_1">Añade tantos campos como necesites para reflejar tu sistema de evaluación.</string>
-    <string name="help_custom_point_2">Asegúrate de que la suma de todos los porcentajes sea del 100% para calcular correctamente la nota final total.</string>
-    <string name="help_custom_point_3">Después de ingresar tus campos personalizados, los resultados se calculan automáticamente en tiempo real.</string>
-    <string name="help_custom_point_4">Ingresa la nota mínima para aprobar según tu sistema académico.</string>
-    <string name="help_customize_note">Puedes personalizar los porcentajes según el sistema de evaluación que utilices.</string>
-    <string name="help_note_label">Nota</string>
+    <string name="help_cognitive_body" formatted="false">Mide lo que aprendiste. Pesa 15 % en los cortes 1 y 2, y 20 % en el corte 3.</string>
+    <string name="help_example_title">Un ejemplo</string>
+    <string name="help_example_description">Con %1$s en formativa y %2$s en cognitiva:</string>
+    <string name="help_remember_passing">Para aprobar, tu nota final debe ser %1$s o más.</string>
+    <string name="help_custom_description">Arma la calculadora con los campos y porcentajes de tu materia. El resultado se calcula mientras escribes.</string>
+    <string name="help_custom_point_1">Agrega tantos campos como necesites para reflejar cómo te evalúan.</string>
+    <string name="help_custom_point_2" formatted="false">Haz que los porcentajes sumen 100 %.</string>
+    <string name="help_custom_point_3">Escribe tus notas: el resultado se calcula en tiempo real.</string>
+    <string name="help_custom_point_4">Cambia la nota para aprobar si tu materia no aprueba con %1$s.</string>
+    <string name="help_customize_note">Puedes adaptar los porcentajes al sistema de evaluación que use tu universidad.</string>
     <string name="help_predefined_percentages">Los porcentajes predefinidos se basan en el sistema de evaluación de la Universidad Americana - Colombia.</string>
-    <string name="help_prediction_title">Predicción de notas</string>
-    <string name="help_prediction_summary">Mientras ingresas notas, un panel muestra la nota mínima uniforme que necesitas en los campos vacíos para aprobar; cada campo vacío también muestra una sugerencia individual, y si una sola nota puede asegurar la aprobación se indica justo debajo de ese campo.</string>
+    <string name="help_prediction_title">Te decimos cuánto te falta</string>
+    <string name="help_prediction_summary">Mientras escribes, la calculadora te muestra la nota mínima que necesitas en los campos vacíos para aprobar. Si una sola nota te basta, te lo dice debajo de ese campo.</string>
+    <string name="help_tab_standard">Estándar</string>
+    <string name="help_tab_custom">Personalizada</string>
+    <string name="help_open_default">Abrir la calculadora</string>
+    <string name="help_open_custom">Abrir mi calculadora</string>
+    <string name="help_standard_headline_format">Tu nota sale de %1$s</string>
+    <string name="help_standard_headline_highlight">3 cortes</string>
+    <string name="help_standard_intro">Escribe tus seis notas, por ejemplo %1$s o %2$s, y el resultado se calcula solo mientras escribes.</string>
+    <string name="help_weights_title">Cuánto pesa cada nota</string>
+    <string name="help_weights_note" formatted="false">Desde 2025, las cuatro primeras notas pesan 15 % cada una y las dos últimas, 20 %.</string>
+    <string name="help_example_total">Nota final</string>
+    <string name="help_example_passes">Apruebas</string>
+    <string name="help_custom_headline_format">Tú pones los %1$s</string>
+    <string name="help_custom_headline_highlight">porcentajes</string>
+    <string name="help_custom_bar_title">La barra te guía</string>
+    <string name="help_custom_bar_caption" formatted="false">Te dice cuánto falta para llegar a 100 % o cuánto te pasaste.</string>
+    <string name="help_custom_sample_1">Parcial</string>
+    <string name="help_custom_sample_2">Quiz</string>
+    <string name="help_custom_steps_title">Paso a paso</string>
+    <string name="help_custom_point_5">Guárdala y la encontrarás igual la próxima vez.</string>
 
     <string name="about_title">Acerca de</string>
     <string name="app_description">Esta aplicación fue creada para ayudar a los estudiantes a calcular sus notas finales de acuerdo con el sistema de evaluación de la Universidad Americana - Colombia.</string>
     <string name="visit_website">Visitar sitio web</string>
-    <string name="copyright_developer">Desarrollado por dony.</string>
-    <string name="copyright_year_format">© %1$d - %2$s</string>
+    <string name="copyright_developer">Desarrollado por dony</string>
+    <string name="copyright_year_format">© %1$d</string>
     <string name="version_format">Versión %1$s</string>
 
     <string name="update_title">Buscar actualizaciones</string>
-    <string name="checking_for_updates">Buscando actualizaciones...</string>
-    <string name="update_available">Actualización disponible</string>
-    <string name="up_to_date">Estás actualizado</string>
-    <string name="new_version_available">Hay una nueva versión disponible para descargar.</string>
+    <string name="checking_for_updates">Buscando actualizaciones…</string>
+    <string name="update_current_format">Tienes la versión %1$s</string>
+    <string name="update_available">Hay una versión nueva</string>
+    <string name="up_to_date">Estás al día</string>
+    <string name="new_version_available">Ya puedes descargarla e instalarla.</string>
     <string name="you_have_latest_version">Tienes la última versión instalada.</string>
     <string name="current_version">Versión actual</string>
     <string name="latest_version">Última versión</string>
+    <string name="update_you_have">Tienes</string>
+    <string name="update_new">Nueva</string>
     <string name="release_notes">Novedades</string>
     <string name="download_update">Descargar actualización</string>
     <string name="check_again">Volver a comprobar</string>
     <string name="retry">Reintentar</string>
     <string name="try_again_later">Inténtalo de nuevo más tarde.</string>
-    <string name="no_releases_found">No se encontraron versiones.</string>
-    <string name="error_fetching_updates">Error al buscar actualizaciones.</string>
-    <string name="connection_error">Error de conexión.</string>
+    <string name="no_releases_found">No se encontraron versiones</string>
+    <string name="error_fetching_updates">Error al buscar actualizaciones</string>
+    <string name="connection_error">Error de conexión</string>
     <string name="error_opening_link">No se pudo abrir el enlace.</string>
-    <string name="update_screen_error_generic">Ocurrió un error al consultar actualizaciones.</string>
+    <string name="update_screen_error_generic">No se pudieron consultar las actualizaciones</string>
+
+    <string name="calc_label_empty">Tu nota final</string>
+    <string name="calc_label_progress">Llevas</string>
+    <string name="calc_label_passed">Aprobaste</string>
+    <string name="calc_label_failed">No alcanza</string>
+    <string name="calc_label_check">Revisa</string>
+    <string name="calc_out_of">de 5,0</string>
+    <string name="calc_check_sub">los porcentajes</string>
+    <string name="calc_filled_format">%1$d de %2$d notas</string>
+    <string name="default_empty_status">Escribe tus notas y aquí verás cuánto llevas y cuánto te falta.</string>
+    <string name="cut_title_format">Corte %1$d</string>
+    <string name="percent_format">%1$s %%</string>
+    <string name="formative">Formativa</string>
+    <string name="cognitive">Cognitiva</string>
+    <string name="custom_screen_title">Mi calculadora</string>
+    <string name="custom_pass_with">Apruebas con</string>
+    <string name="custom_pass_hint">Cámbiala si tu materia aprueba con otra nota</string>
+    <string name="custom_allocation_title">Cómo se reparte tu nota</string>
+    <string name="custom_allocation_missing_format">Falta %1$s</string>
+    <string name="custom_allocation_none" formatted="false">0 % asignado</string>
+    <string name="custom_unassigned_format">Te falta asignar %1$s de tu esquema.</string>
+    <string name="custom_exceeded_format">Te pasaste por %1$s. La suma tiene que dar 100 %%.</string>
+    <string name="custom_complete" formatted="false">Tu esquema ya suma 100 %.</string>
+    <string name="custom_empty_caption" formatted="false">Agrega campos hasta llegar a 100 %.</string>
+    <string name="custom_empty_intro" formatted="false">Cada campo es una nota de tu materia con su porcentaje, por ejemplo Parcial, 40 %.</string>
+    <string name="custom_add_first">Agrega tu\nprimer campo</string>
 </resources>

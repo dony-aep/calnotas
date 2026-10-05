@@ -2,10 +2,16 @@
     <string name="app_name">CalNotas</string>
 
     <string name="home_title">CalNotas</string>
-    <string name="home_welcome_title">Welcome!</string>
-    <string name="home_welcome_subtitle">Select a calculator to get started.</string>
-    <string name="home_default_description">Calculate your grades with the standard format.</string>
-    <string name="home_custom_description">Create your own calculator with custom fields.</string>
+    <string name="home_greeting_morning">Good morning</string>
+    <string name="home_greeting_afternoon">Good afternoon</string>
+    <string name="home_greeting_evening">Good evening</string>
+    <string name="home_question_format">What are we working out %1$s?</string>
+    <string name="home_question_highlight">today</string>
+    <string name="home_default_action">Calculate\nmy grades</string>
+    <string name="home_default_plan_format">%1$d cuts · %2$s</string>
+    <string name="home_custom_action">Build my\ncalculator</string>
+    <string name="home_custom_saved_format">Saved: %1$s</string>
+    <string name="home_custom_hint">With your own percentages</string>
     <string name="open_menu">Open menu</string>
     <string name="grade_calculator">Grade Calculator</string>
     <string name="custom_grade_calculator">Custom Grade Calculator</string>
@@ -22,34 +28,20 @@
     <string name="cancel">Cancel</string>
     <string name="back">Back</string>
     <string name="clear">Clear</string>
-    <string name="final_grade_1_format">Final Grade 1 [Cut 1]: %1$s</string>
-    <string name="final_grade_2_format">Final Grade 2 [Cut 2]: %1$s</string>
-    <string name="final_grade_3_format">Final Grade 3 [Cut 3]: %1$s</string>
-    <string name="grade_1_formative">Grade 1 [Formative]</string>
-    <string name="grade_2_cognitive">Grade 2 [Cognitive]</string>
-    <string name="grade_3_formative">Grade 3 [Formative]</string>
-    <string name="grade_4_cognitive">Grade 4 [Cognitive]</string>
-    <string name="grade_5_formative">Grade 5 [Formative]</string>
-    <string name="grade_6_cognitive">Grade 6 [Cognitive]</string>
-    <string name="total_final_grade">Total Final Grade</string>
-    <string name="default_completion_label">Completed fields</string>
-    <string name="custom_percentage_progress_label">Percentage progress</string>
     <string name="passing_message">Congratulations, you passed the subject.</string>
     <string name="failing_message">You did not reach the minimum passing grade.</string>
-    <string name="prediction_title">Prediction to pass</string>
     <string name="prediction_needed_format">You need at least %1$s in each of the %2$d remaining grades to pass.</string>
     <string name="prediction_guaranteed">You\'ve already secured a pass! Any grade on the remaining ones keeps you passing.</string>
     <string name="prediction_impossible">Even with a 5.0 on the remaining grades, you can\'t reach 3.0 to pass.</string>
     <string name="prediction_field_hint_format">Suggested: ≥ %1$s</string>
     <string name="prediction_secure_hint_format">With ≥ %1$s, you secure a pass.</string>
 
-    <string name="custom_calculator_title">Custom Grade Calculator</string>
     <string name="min_passing_grade">Minimum passing grade</string>
-    <string name="default_value_hint">Default value: 3.0</string>
-    <string name="no_fields_added">No fields yet. Use + to add one.</string>
     <string name="add_field">Add field</string>
     <string name="save_calculator">Save calculator</string>
     <string name="reset">Reset</string>
+    <string name="reset_calculator_title">Reset the calculator?</string>
+    <string name="reset_calculator_message">All fields and the saved calculator will be deleted. This can\'t be undone.</string>
     <string name="field_prefix">Field %1$d</string>
     <string name="field_name">Field name</string>
     <string name="percentage">Percentage</string>
@@ -57,19 +49,13 @@
     <string name="remove_field">Remove field</string>
     <string name="calculator_saved">Calculator saved.</string>
     <string name="invalid_grade_short">Invalid grade: use values between 0 and 5.</string>
-    <string name="percentage_exceeded_format">The percentage sum is %1$s%%. It cannot exceed 100%%.</string>
-    <string name="percentage_insufficient_format">The percentage sum is %1$s%%. It must be 100%%.</string>
 
     <string name="settings_title">Settings</string>
-    <string name="settings_screen_subtitle">Personalize the app with your preferred theme and language.</string>
-    <string name="display">Display</string>
+    <string name="settings_screen_subtitle">Choose how CalNotas looks and which language it uses.</string>
     <string name="theme">Theme</string>
-    <string name="app_language">App language</string>
-    <string name="choose_theme_title">Choose a theme</string>
-    <string name="choose_language_title">Choose a language</string>
-    <string name="settings_choose_theme_hint">Select the theme you prefer for the app.</string>
-    <string name="settings_choose_language_hint">Select the language you prefer for the app.</string>
-    <string name="system_default">System default</string>
+    <string name="app_language">Language</string>
+    <string name="system_short">System</string>
+    <string name="settings_language_hint">“%1$s” uses your phone\'s language.</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
     <string name="spanish">Spanish</string>
@@ -77,61 +63,97 @@
     <string name="support">Support</string>
     <string name="view_help_info">View help information</string>
     <string name="check_updates_desc">Download the latest app version</string>
+    <string name="about_summary_format">CalNotas · version %1$s</string>
 
     <string name="help_title">Help</string>
-    <string name="help_default_header">Default Grade Calculator</string>
-    <string name="help_default_body">Enter six grades and the total is calculated automatically using 15/15/15/15/20/20 weighting.</string>
-    <string name="help_custom_header">Custom Calculator</string>
-    <string name="help_custom_body">Add dynamic fields, define percentages and ensure the sum is exactly 100% to get the final result.</string>
-    <string name="help_enter_grades">Enter the grades in the corresponding fields, for example: 4.5 or 3.0.</string>
-    <string name="help_update_2025_title">2025 update</string>
-    <string name="help_update_2025_body" formatted="false">Percentages were updated according to the new evaluation system. Grades 1-4 now weigh 15% each, and grades 5-6 weigh 20% each.</string>
     <string name="help_formative_title">Formative grade</string>
-    <string name="help_formative_body" formatted="false">Evaluates continuous participation and weighs 15% (Cut 1 and Cut 2) and 20% (Cut 3).</string>
+    <string name="help_formative_body" formatted="false">Measures your ongoing participation. It weighs 15% in cuts 1 and 2, and 20% in cut 3.</string>
     <string name="help_cognitive_title">Cognitive grade</string>
-    <string name="help_cognitive_body" formatted="false">Evaluates acquired knowledge and weighs 15% (Cut 1 and Cut 2) and 20% (Cut 3).</string>
-    <string name="help_auto_calc">After entering grades, results are calculated automatically in real time.</string>
-    <string name="help_example_title">Example</string>
-    <string name="help_example_description">For a Formative Grade of 4.5 and a Cognitive Grade of 3.0:</string>
-    <string name="help_final_grade_1_example">Final Grade 1 (Cut 1): (4.5 * 0.15) + (3.0 * 0.15) = 0.675 + 0.45 = 1.13</string>
-    <string name="help_final_grade_2_example">Final Grade 2 (Cut 2): (4.5 * 0.15) + (3.0 * 0.15) = 0.675 + 0.45 = 1.13</string>
-    <string name="help_final_grade_3_example">Final Grade 3 (Cut 3): (4.5 * 0.20) + (3.0 * 0.20) = 0.9 + 0.6 = 1.5</string>
-    <string name="help_total_final_grade_example">Total Final Grade: 1.13 + 1.13 + 1.5 = 3.76</string>
-    <string name="help_remember_passing">Remember that the total final grade must be greater than or equal to 3.0 to pass.</string>
-    <string name="help_custom_description">You can use the Custom Calculator to enter your own grades and percentages according to your needs.</string>
-    <string name="help_custom_point_1">Add as many fields as needed to reflect your evaluation system.</string>
-    <string name="help_custom_point_2">Make sure the sum of all percentages is 100% to correctly calculate the total final grade.</string>
-    <string name="help_custom_point_3">After entering your custom fields, results are calculated automatically in real time.</string>
-    <string name="help_custom_point_4">Enter the minimum passing grade according to your academic system.</string>
-    <string name="help_customize_note">You can customize percentages according to the evaluation system you use.</string>
-    <string name="help_note_label">Note</string>
+    <string name="help_cognitive_body" formatted="false">Measures what you learned. It weighs 15% in cuts 1 and 2, and 20% in cut 3.</string>
+    <string name="help_example_title">An example</string>
+    <string name="help_example_description">With %1$s formative and %2$s cognitive:</string>
+    <string name="help_remember_passing">To pass, your final grade has to be %1$s or higher.</string>
+    <string name="help_custom_description">Build the calculator with your course\'s fields and percentages. The result updates as you type.</string>
+    <string name="help_custom_point_1">Add as many fields as you need to match how you\'re graded.</string>
+    <string name="help_custom_point_2" formatted="false">Make the percentages add up to 100%.</string>
+    <string name="help_custom_point_3">Enter your grades: the result updates in real time.</string>
+    <string name="help_custom_point_4">Change the passing grade if your course doesn\'t pass at %1$s.</string>
+    <string name="help_customize_note">You can adapt the percentages to your university\'s grading system.</string>
     <string name="help_predefined_percentages">Predefined percentages are based on the evaluation system of Universidad Americana - Colombia.</string>
-    <string name="help_prediction_title">Grade prediction</string>
-    <string name="help_prediction_summary">As you enter grades, a panel shows the minimum uniform grade you need in the empty fields to pass; each empty field also shows an individual suggestion, and if a single grade alone can secure a pass it\'s shown right below that field.</string>
+    <string name="help_prediction_title">We tell you what you still need</string>
+    <string name="help_prediction_summary">As you type, the calculator shows the minimum grade you need in the empty fields to pass. If a single grade is enough, it tells you right below that field.</string>
+    <string name="help_tab_standard">Standard</string>
+    <string name="help_tab_custom">Custom</string>
+    <string name="help_open_default">Open the calculator</string>
+    <string name="help_open_custom">Open my calculator</string>
+    <string name="help_standard_headline_format">Your grade comes from %1$s</string>
+    <string name="help_standard_headline_highlight">3 cuts</string>
+    <string name="help_standard_intro">Enter your six grades, for example %1$s or %2$s, and the result updates as you type.</string>
+    <string name="help_weights_title">How much each grade weighs</string>
+    <string name="help_weights_note" formatted="false">Since 2025, the first four grades weigh 15% each and the last two, 20%.</string>
+    <string name="help_example_total">Final grade</string>
+    <string name="help_example_passes">You pass</string>
+    <string name="help_custom_headline_format">You set the %1$s</string>
+    <string name="help_custom_headline_highlight">percentages</string>
+    <string name="help_custom_bar_title">The bar guides you</string>
+    <string name="help_custom_bar_caption" formatted="false">It shows how much is left to reach 100% or how far over you are.</string>
+    <string name="help_custom_sample_1">Midterm</string>
+    <string name="help_custom_sample_2">Quiz</string>
+    <string name="help_custom_steps_title">Step by step</string>
+    <string name="help_custom_point_5">Save it and it\'ll be the same next time.</string>
 
     <string name="about_title">About</string>
     <string name="app_description">This application was created to help students calculate their final grades according to the evaluation system of Universidad Americana - Colombia.</string>
     <string name="visit_website">Visit website</string>
-    <string name="copyright_developer">Developed by dony.</string>
-    <string name="copyright_year_format">© %1$d - %2$s</string>
+    <string name="copyright_developer">Developed by dony</string>
+    <string name="copyright_year_format">© %1$d</string>
     <string name="version_format">Version %1$s</string>
 
     <string name="update_title">Check for updates</string>
-    <string name="checking_for_updates">Checking for updates...</string>
-    <string name="update_available">Update available</string>
-    <string name="up_to_date">You are up to date</string>
-    <string name="new_version_available">A new version is available to download.</string>
+    <string name="checking_for_updates">Checking for updates…</string>
+    <string name="update_current_format">You have version %1$s</string>
+    <string name="update_available">There\'s a new version</string>
+    <string name="up_to_date">You\'re up to date</string>
+    <string name="new_version_available">You can download and install it now.</string>
     <string name="you_have_latest_version">You already have the latest version.</string>
     <string name="current_version">Current version</string>
     <string name="latest_version">Latest version</string>
+    <string name="update_you_have">You have</string>
+    <string name="update_new">New</string>
     <string name="release_notes">Release notes</string>
     <string name="download_update">Download update</string>
     <string name="check_again">Check again</string>
     <string name="retry">Retry</string>
     <string name="try_again_later">Try again later.</string>
-    <string name="no_releases_found">No releases found.</string>
-    <string name="error_fetching_updates">Error fetching updates.</string>
-    <string name="connection_error">Connection error.</string>
+    <string name="no_releases_found">No releases found</string>
+    <string name="error_fetching_updates">Error fetching updates</string>
+    <string name="connection_error">Connection error</string>
     <string name="error_opening_link">Could not open the link.</string>
-    <string name="update_screen_error_generic">An error occurred while checking for updates.</string>
+    <string name="update_screen_error_generic">Couldn\'t check for updates</string>
+
+    <string name="calc_label_empty">Your final grade</string>
+    <string name="calc_label_progress">So far</string>
+    <string name="calc_label_passed">You passed</string>
+    <string name="calc_label_failed">Not enough</string>
+    <string name="calc_label_check">Check</string>
+    <string name="calc_out_of">out of 5.0</string>
+    <string name="calc_check_sub">the percentages</string>
+    <string name="calc_filled_format">%1$d of %2$d grades</string>
+    <string name="default_empty_status">Enter your grades to see where you stand and what you still need.</string>
+    <string name="cut_title_format">Cut %1$d</string>
+    <string name="percent_format">%1$s%%</string>
+    <string name="formative">Formative</string>
+    <string name="cognitive">Cognitive</string>
+    <string name="custom_screen_title">My calculator</string>
+    <string name="custom_pass_with">You pass with</string>
+    <string name="custom_pass_hint">Change it if your course passes at a different grade</string>
+    <string name="custom_allocation_title">How your grade is split</string>
+    <string name="custom_allocation_missing_format">%1$s left</string>
+    <string name="custom_allocation_none" formatted="false">0% assigned</string>
+    <string name="custom_unassigned_format">%1$s of your scheme is still unassigned.</string>
+    <string name="custom_exceeded_format">You are over by %1$s. The total has to be 100%%.</string>
+    <string name="custom_complete" formatted="false">Your scheme adds up to 100%.</string>
+    <string name="custom_empty_caption" formatted="false">Add fields until you reach 100%.</string>
+    <string name="custom_empty_intro" formatted="false">Each field is one grade of your course with its percentage, for example Midterm, 40%.</string>
+    <string name="custom_add_first">Add your\nfirst field</string>
 </resources>

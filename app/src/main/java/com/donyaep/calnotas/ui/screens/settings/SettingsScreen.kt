@@ -1,66 +1,77 @@
 package com.donyaep.calnotas.ui.screens.settings
 
+import android.os.Build
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.automirrored.outlined.HelpOutline
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.SystemUpdate
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ButtonGroupDefaults
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedListItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.MediumFlexibleTopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.ToggleButton
+import androidx.compose.material3.ToggleButtonDefaults
+import androidx.compose.material3.ToggleButtonSize
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.expressiveLightColorScheme
+import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.donyaep.calnotas.BuildConfig
 import com.donyaep.calnotas.R
+import com.donyaep.calnotas.ui.components.SecondaryScreenScaffold
+import com.donyaep.calnotas.ui.components.SectionLabel
 import com.donyaep.calnotas.ui.settings.AppSettingsViewModel
 import com.donyaep.calnotas.ui.settings.ThemeModePreference
+import com.donyaep.calnotas.ui.theme.isAppInDarkTheme
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsScreen(
     onBack: () -> Unit,
@@ -70,355 +81,262 @@ fun SettingsScreen(
     viewModel: AppSettingsViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    var showThemeDialog by rememberSaveable { mutableStateOf(false) }
-    var showLanguageSheet by rememberSaveable { mutableStateOf(false) }
+    val colors = MaterialTheme.colorScheme
 
-    if (showThemeDialog) {
-        ThemeSelectionDialog(
-            currentTheme = uiState.themeMode,
-            onDismiss = { showThemeDialog = false },
-            onThemeSelected = { selectedTheme ->
-                viewModel.setThemeMode(selectedTheme)
-                showThemeDialog = false
+    SecondaryScreenScaffold(
+        title = stringResource(R.string.settings_title),
+        backgroundShape = MaterialShapes.Cookie12Sided.toShape(),
+        toolbar = {
+            FilledIconButton(onClick = onBack) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
             }
+        }
+    ) {
+        Text(
+            stringResource(R.string.settings_screen_subtitle),
+            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp, lineHeight = 23.sp, letterSpacing = 0.sp),
+            color = colors.onSurfaceVariant,
+            modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 4.dp)
         )
-    }
 
-    if (showLanguageSheet) {
-        ModalBottomSheet(
-            onDismissRequest = { showLanguageSheet = false }
-        ) {
-            LanguageSheetContent(
-                currentLanguage = uiState.languageCode,
-                onLanguageSelected = { selectedLanguage ->
-                    viewModel.setLanguageCode(selectedLanguage)
-                    showLanguageSheet = false
-                }
+        SectionLabel(stringResource(R.string.theme), Modifier.padding(start = 24.dp, end = 24.dp, top = 28.dp, bottom = 12.dp))
+        ThemePicker(
+            selected = uiState.themeMode,
+            onSelect = viewModel::setThemeMode,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+
+        SectionLabel(stringResource(R.string.app_language), Modifier.padding(start = 24.dp, end = 24.dp, top = 28.dp, bottom = 12.dp))
+        LanguagePicker(
+            selected = uiState.languageCode,
+            onSelect = viewModel::setLanguageCode,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+        Text(
+            stringResource(R.string.settings_language_hint, stringResource(R.string.system_short)),
+            style = MaterialTheme.typography.bodySmall.copy(fontSize = 13.sp, lineHeight = 18.sp, letterSpacing = 0.sp),
+            color = colors.outline,
+            modifier = Modifier.padding(start = 28.dp, end = 28.dp, top = 10.dp)
+        )
+
+        SectionLabel(stringResource(R.string.support), Modifier.padding(start = 24.dp, end = 24.dp, top = 30.dp, bottom = 12.dp))
+        // SegmentedListItem anima su color de fondo: al cambiar de tema hacía un fundido desde el
+        // color anterior. Con la clave, las filas se crean de nuevo y entran ya con el color nuevo.
+        key(isAppInDarkTheme()) {
+            Column(modifier = Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                SupportItem(0, ImageVector.vectorResource(R.drawable.ic_help_outline), stringResource(R.string.help), stringResource(R.string.view_help_info), onNavigateToHelp)
+                SupportItem(1, Icons.Outlined.Info, stringResource(R.string.about), stringResource(R.string.about_summary_format, BuildConfig.VERSION_NAME), onNavigateToAbout)
+                SupportItem(2, ImageVector.vectorResource(R.drawable.ic_update), stringResource(R.string.check_updates), stringResource(R.string.check_updates_desc), onNavigateToUpdate)
+            }
+        }
+    }
+}
+
+/**
+ * Los tres temas con una vista previa en miniatura del inicio. El elegido se aplica al tocarlo y su
+ * tarjeta se redondea, como un botón de alternar de M3 Expressive.
+ */
+@Composable
+private fun ThemePicker(selected: ThemeModePreference, onSelect: (ThemeModePreference) -> Unit, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    // Las vistas previas usan los mismos esquemas que aplica CalNotasTheme.
+    val dynamic = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    val light = if (dynamic) dynamicLightColorScheme(context) else expressiveLightColorScheme()
+    val dark = if (dynamic) dynamicDarkColorScheme(context) else darkColorScheme()
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .selectableGroup(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        ThemeModePreference.entries.forEach { mode ->
+            ThemeTile(
+                mode = mode,
+                selected = mode == selected,
+                onClick = { onSelect(mode) },
+                light = light,
+                dark = dark,
+                modifier = Modifier.weight(1f)
             )
         }
     }
+}
 
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            MediumFlexibleTopAppBar(
-                title = { Text(stringResource(R.string.settings_title)) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        }
-    ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.surface,
-                                MaterialTheme.colorScheme.surfaceContainerLow,
-                                MaterialTheme.colorScheme.surface
-                            )
-                        )
-                    )
-            )
-
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = 18.dp, end = 14.dp)
-                    .fillMaxWidth(0.44f)
-                    .height(118.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.10f),
-                        shape = CircleShape
-                    )
-            )
-
+@Composable
+private fun ThemeTile(
+    mode: ThemeModePreference,
+    selected: Boolean,
+    onClick: () -> Unit,
+    light: ColorScheme,
+    dark: ColorScheme,
+    modifier: Modifier = Modifier
+) {
+    val colors = MaterialTheme.colorScheme
+    val corner by animateDpAsState(
+        if (selected) 32.dp else 16.dp,
+        MaterialTheme.motionScheme.defaultSpatialSpec(),
+        label = "themeTileCorner"
+    )
+    // Sin animar el color: al cambiar de tema, la tarjeta pasa al color nuevo en el mismo cuadro
+    // que el resto de la pantalla, en vez de arrastrar el del tema anterior.
+    val container = if (selected) colors.primaryContainer else colors.surfaceContainerLow
+    Surface(
+        selected = selected,
+        onClick = onClick,
+        shape = RoundedCornerShape(corner),
+        color = container,
+        contentColor = if (selected) colors.onPrimaryContainer else colors.onSurface,
+        modifier = modifier
+            .height(172.dp)
+            .semantics { role = Role.RadioButton }
+    ) {
+        Box {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                    .padding(start = 10.dp, end = 10.dp, top = 14.dp, bottom = 12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = stringResource(R.string.settings_screen_subtitle),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                Text(
-                    text = stringResource(R.string.display),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Column {
-                    SettingsNavigationItem(
-                        index = 0,
-                        lastIndex = 1,
-                        icon = Icons.Filled.Palette,
-                        title = stringResource(R.string.theme),
-                        subtitle = stringResource(themeModeLabelRes(uiState.themeMode)),
-                        onClick = { showThemeDialog = true }
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-
-                    SettingsNavigationItem(
-                        index = 1,
-                        lastIndex = 1,
-                        icon = Icons.Filled.Language,
-                        title = stringResource(R.string.app_language),
-                        subtitle = languageAppliedText(uiState.languageCode),
-                        onClick = { showLanguageSheet = true }
-                    )
-                }
-
-                Text(
-                    text = stringResource(R.string.support),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Column {
-                    SettingsNavigationItem(
-                        index = 0,
-                        lastIndex = 2,
-                        icon = Icons.AutoMirrored.Outlined.HelpOutline,
-                        title = stringResource(R.string.help),
-                        subtitle = stringResource(R.string.view_help_info),
-                        onClick = onNavigateToHelp
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-
-                    SettingsNavigationItem(
-                        index = 1,
-                        lastIndex = 2,
-                        icon = Icons.Outlined.Info,
-                        title = stringResource(R.string.about),
-                        subtitle = stringResource(R.string.app_name),
-                        onClick = onNavigateToAbout
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-
-                    SettingsNavigationItem(
-                        index = 2,
-                        lastIndex = 2,
-                        icon = Icons.Outlined.SystemUpdate,
-                        title = stringResource(R.string.check_updates),
-                        subtitle = stringResource(R.string.check_updates_desc),
-                        onClick = onNavigateToUpdate
-                    )
+                ThemePreview(mode, light, dark)
+                Text(stringResource(themeLabel(mode)), style = MaterialTheme.typography.labelLarge.copy(fontSize = 14.sp), fontWeight = FontWeight.SemiBold)
+            }
+            if (selected) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(10.dp)
+                        .size(24.dp)
+                        .background(colors.primary, CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(Icons.Filled.Check, contentDescription = null, tint = colors.onPrimary, modifier = Modifier.size(14.dp))
                 }
             }
         }
     }
 }
 
+/** Una pantalla en miniatura con la galleta del inicio. «Sistema» muestra mitad clara y mitad oscura. */
 @Composable
-private fun SettingsNavigationItem(
-    index: Int,
-    lastIndex: Int,
-    icon: ImageVector,
-    title: String,
-    subtitle: String,
-    onClick: () -> Unit
-) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        onClick = onClick,
-        shape = segmentedItemShape(index = index, lastIndex = lastIndex),
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        tonalElevation = 1.dp
+private fun ThemePreview(mode: ThemeModePreference, light: ColorScheme, dark: ColorScheme) {
+    val shape = RoundedCornerShape(14.dp)
+    Box(
+        modifier = Modifier
+            .size(width = 70.dp, height = 104.dp)
+            .clip(shape)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, shape)
     ) {
-        ListItem(
-            colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-            leadingContent = {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null
-                )
-            },
-            headlineContent = { Text(title) },
-            supportingContent = {
-                Text(
-                    text = subtitle,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            },
-            trailingContent = {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        )
-    }
-}
-
-private fun segmentedItemShape(index: Int, lastIndex: Int): RoundedCornerShape {
-    return when (index) {
-        0 -> RoundedCornerShape(
-            topStart = 16.dp,
-            topEnd = 16.dp,
-            bottomStart = 4.dp,
-            bottomEnd = 4.dp
-        )
-
-        lastIndex -> RoundedCornerShape(
-            topStart = 4.dp,
-            topEnd = 4.dp,
-            bottomStart = 16.dp,
-            bottomEnd = 16.dp
-        )
-
-        else -> RoundedCornerShape(4.dp)
-    }
-}
-
-@Composable
-private fun ThemeSelectionDialog(
-    currentTheme: ThemeModePreference,
-    onDismiss: () -> Unit,
-    onThemeSelected: (ThemeModePreference) -> Unit
-) {
-    // Selecting a radio only stages the choice locally; it's only applied when the user
-    // confirms with the OK button, instead of applying (and dismissing) on every tap.
-    var pendingSelection by rememberSaveable { mutableStateOf(currentTheme) }
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(text = stringResource(R.string.choose_theme_title)) },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                ThemeModePreference.entries.forEach { option ->
-                    SelectionRow(
-                        selected = option == pendingSelection,
-                        text = stringResource(themeModeLabelRes(option)),
-                        onClick = { pendingSelection = option }
-                    )
+        when (mode) {
+            ThemeModePreference.LIGHT -> MiniScreen(light)
+            ThemeModePreference.DARK -> MiniScreen(dark)
+            ThemeModePreference.SYSTEM -> {
+                MiniScreen(light)
+                Box(Modifier.drawWithContent { clipRect(left = size.width / 2) { this@drawWithContent.drawContent() } }) {
+                    MiniScreen(dark)
                 }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = { onThemeSelected(pendingSelection) }) {
-                Text(stringResource(R.string.ok))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel))
-            }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+private fun MiniScreen(scheme: ColorScheme) {
+    Box(
+        modifier = Modifier
+            .size(width = 70.dp, height = 104.dp)
+            .background(scheme.background)
+    ) {
+        Box(
+            Modifier
+                .offset(13.dp, 18.dp)
+                .size(44.dp)
+                .background(scheme.primary, MaterialShapes.Cookie9Sided.toShape())
+        )
+        Box(
+            Modifier
+                .align(Alignment.BottomCenter)
+                .padding(start = 10.dp, end = 10.dp, bottom = 12.dp)
+                .fillMaxWidth()
+                .height(12.dp)
+                .background(scheme.surfaceContainerHigh, CircleShape)
+        )
+    }
+}
+
+/** Idioma en un grupo de botones conectados; el elegido se aplica al tocarlo. */
+@Composable
+private fun LanguagePicker(selected: String, onSelect: (String) -> Unit, modifier: Modifier = Modifier) {
+    val colors = MaterialTheme.colorScheme
+    val options = listOf(
+        "system" to stringResource(R.string.system_short),
+        "es" to stringResource(R.string.spanish),
+        "en" to stringResource(R.string.english)
     )
-}
-
-@Composable
-private fun LanguageSheetContent(
-    currentLanguage: String,
-    onLanguageSelected: (String) -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.choose_language_title),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.SemiBold
-        )
-        Text(
-            text = stringResource(R.string.settings_choose_language_hint),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-
-        SelectionRow(
-            selected = currentLanguage == "system",
-            text = stringResource(R.string.system_default),
-            onClick = { onLanguageSelected("system") }
-        )
-        SelectionRow(
-            selected = currentLanguage == "es",
-            text = stringResource(R.string.spanish),
-            onClick = { onLanguageSelected("es") }
-        )
-        SelectionRow(
-            selected = currentLanguage == "en",
-            text = stringResource(R.string.english),
-            onClick = { onLanguageSelected("en") }
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-    }
-}
-
-@Composable
-private fun SelectionRow(
-    selected: Boolean,
-    text: String,
-    onClick: () -> Unit
-) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(horizontal = 4.dp, vertical = 2.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .selectableGroup(),
+        horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween)
     ) {
-        RadioButton(
-            selected = selected,
-            onClick = onClick
-        )
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge
-        )
-    }
-}
-
-private fun themeModeLabelRes(themeMode: ThemeModePreference): Int {
-    return when (themeMode) {
-        ThemeModePreference.SYSTEM -> R.string.system_default
-        ThemeModePreference.LIGHT -> R.string.light
-        ThemeModePreference.DARK -> R.string.dark
-    }
-}
-
-@Composable
-private fun languageAppliedText(languageCode: String): String {
-    val configuration = LocalConfiguration.current
-    val systemLanguageCode = configuration.locales[0]?.language ?: "es"
-
-    return when (languageCode) {
-        "en" -> stringResource(R.string.english)
-        "es" -> stringResource(R.string.spanish)
-        else -> {
-            val systemLabel = when (systemLanguageCode) {
-                "en" -> stringResource(R.string.english)
-                "es" -> stringResource(R.string.spanish)
-                else -> systemLanguageCode.uppercase()
+        options.forEachIndexed { index, (code, label) ->
+            val checked = code == selected
+            ToggleButton(
+                checked = checked,
+                onCheckedChange = { onSelect(code) },
+                buttonSize = ToggleButtonSize.Medium,
+                shapes = when (index) {
+                    0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
+                    options.lastIndex -> ButtonGroupDefaults.connectedTrailingButtonShapes()
+                    else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
+                },
+                colors = ToggleButtonDefaults.colors(containerColor = colors.surfaceContainerHigh, contentColor = colors.onSurface),
+                contentPadding = PaddingValues(horizontal = 8.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .semantics { role = Role.RadioButton }
+            ) {
+                if (checked) {
+                    Icon(Icons.Filled.Check, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Spacer(Modifier.size(6.dp))
+                }
+                Text(label, maxLines = 1)
             }
-            "${stringResource(R.string.system_default)} ($systemLabel)"
         }
     }
+}
+
+@Composable
+private fun SupportItem(index: Int, icon: ImageVector, title: String, subtitle: String, onClick: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
+    SegmentedListItem(
+        onClick = onClick,
+        shapes = ListItemDefaults.segmentedShapes(index = index, count = 3),
+        modifier = Modifier.fillMaxWidth(),
+        colors = ListItemDefaults.segmentedColors(containerColor = colors.surfaceContainerLow),
+        leadingContent = {
+            Box(
+                modifier = Modifier
+                    .size(44.dp)
+                    .background(colors.surfaceContainerHigh, CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(icon, contentDescription = null, tint = colors.primary, modifier = Modifier.size(22.dp))
+            }
+        },
+        supportingContent = { Text(subtitle, color = colors.onSurfaceVariant) },
+        trailingContent = {
+            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, tint = colors.outline)
+        }
+    ) {
+        Text(title)
+    }
+}
+
+private fun themeLabel(mode: ThemeModePreference): Int = when (mode) {
+    ThemeModePreference.SYSTEM -> R.string.system_short
+    ThemeModePreference.LIGHT -> R.string.light
+    ThemeModePreference.DARK -> R.string.dark
 }

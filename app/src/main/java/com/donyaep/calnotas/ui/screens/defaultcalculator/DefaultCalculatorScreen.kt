@@ -1,9 +1,7 @@
 package com.donyaep.calnotas.ui.screens.defaultcalculator
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,496 +11,443 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AutoGraph
-import androidx.compose.material.icons.filled.CleaningServices
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
-import androidx.compose.material3.FloatingToolbarDefaults
 import androidx.compose.material3.HorizontalFloatingToolbar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LinearWavyProgressIndicator
+import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.material3.toShape
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.donyaep.calnotas.R
+import com.donyaep.calnotas.ui.components.HintKind
+import com.donyaep.calnotas.ui.components.LayeredBackgroundShape
+import com.donyaep.calnotas.ui.components.NumberTile
+import com.donyaep.calnotas.ui.components.connectedShape
+import com.donyaep.calnotas.ui.components.depthColor
+import com.donyaep.calnotas.ui.components.rememberMorphingShape
+import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+private const val PassingGrade = 3.0
+private const val GradeCount = 6
+
+/** Cómo va la nota: decide la forma y el color de la galleta del resultado. */
+private enum class ResultMood { Empty, Progress, Passed, Failed }
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DefaultCalculatorScreen(
     onBack: () -> Unit,
     viewModel: DefaultCalculatorViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val colors = MaterialTheme.colorScheme
 
     uiState.error?.let { error ->
         val message = when (error) {
             DefaultCalculatorError.INVALID_NUMBER -> stringResource(R.string.invalid_number_message)
             DefaultCalculatorError.INVALID_RANGE -> stringResource(R.string.invalid_range_message)
         }
-
         AlertDialog(
             onDismissRequest = { viewModel.dismissError() },
             title = { Text(stringResource(R.string.invalid_grade_title)) },
             text = { Text(message) },
             confirmButton = {
-                TextButton(onClick = { viewModel.dismissError() }) {
-                    Text(stringResource(R.string.ok))
-                }
+                TextButton(onClick = { viewModel.dismissError() }) { Text(stringResource(R.string.ok)) }
             }
         )
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.default_calculator_title)) }
-            )
-        }
-    ) { innerPadding ->
-        Box(
+    val grades = listOf(uiState.grade1, uiState.grade2, uiState.grade3, uiState.grade4, uiState.grade5, uiState.grade6)
+    val finals = listOf(uiState.final1, uiState.final2, uiState.final3)
+    val filled = grades.count { it.isNotBlank() }
+    val complete = uiState.predictionState == PredictionState.COMPLETE
+
+    // Mientras faltan notas el resultado no se pinta de rojo: solo cuando el 3,0 ya no es posible.
+    val mood = when {
+        !uiState.hasAnyInput -> ResultMood.Empty
+        uiState.predictionState == PredictionState.IMPOSSIBLE -> ResultMood.Failed
+        complete && uiState.total < PassingGrade -> ResultMood.Failed
+        complete || uiState.predictionState == PredictionState.GUARANTEED -> ResultMood.Passed
+        else -> ResultMood.Progress
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colors.background)
+    ) {
+        LayeredBackgroundShape(
+            MaterialShapes.Sunny.toShape(), 300.dp, 260.dp, 16.dp, 10.dp,
+            Modifier.align(Alignment.TopEnd).offset(120.dp, (-90).dp)
+        )
+
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .statusBarsPadding()
+                .navigationBarsPadding()
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 112.dp)
         ) {
-            Box(
+            Text(
+                text = stringResource(R.string.default_calculator_title),
+                style = MaterialTheme.typography.titleLarge.copy(fontSize = 19.sp, letterSpacing = (-0.2).sp),
+                fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
-                    .matchParentSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.surface,
-                                MaterialTheme.colorScheme.surfaceContainerLow,
-                                MaterialTheme.colorScheme.surface
-                            )
-                        )
-                    )
+                    .padding(horizontal = 24.dp)
+                    .height(56.dp)
+                    .padding(top = 16.dp)
             )
 
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = 18.dp, end = 14.dp)
-                    .fillMaxWidth(0.44f)
-                    .height(118.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.10f),
-                        shape = CircleShape
-                    )
+            ResultCookie(
+                mood = mood,
+                total = uiState.total,
+                filled = filled,
+                modifier = Modifier.fillMaxWidth()
             )
 
-            val passed = uiState.total >= 3.0
-            val completedInputs = listOf(
-                uiState.grade1,
-                uiState.grade2,
-                uiState.grade3,
-                uiState.grade4,
-                uiState.grade5,
-                uiState.grade6
-            ).count { it.isNotBlank() }
-            val completionProgress = completedInputs / 6f
-            val targetContainerColor = when {
-                !uiState.hasAnyInput -> MaterialTheme.colorScheme.surfaceContainerLow
-                passed -> MaterialTheme.colorScheme.primaryContainer
-                else -> MaterialTheme.colorScheme.errorContainer
-            }
-            val totalContainerColor by animateColorAsState(
-                targetValue = targetContainerColor,
-                animationSpec = spring(stiffness = Spring.StiffnessLow),
-                label = "result_card_color"
+            Text(
+                text = statusText(uiState, complete),
+                style = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp, lineHeight = 22.sp, letterSpacing = 0.sp),
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp)
+                    .padding(top = 6.dp)
             )
-            val targetResultContentColor = when {
-                !uiState.hasAnyInput -> MaterialTheme.colorScheme.onSurface
-                passed -> MaterialTheme.colorScheme.onPrimaryContainer
-                else -> MaterialTheme.colorScheme.onErrorContainer
-            }
-            val resultContentColor by animateColorAsState(
-                targetValue = targetResultContentColor,
-                animationSpec = spring(stiffness = Spring.StiffnessLow),
-                label = "result_card_content_color"
+
+            GradeScale(
+                value = uiState.total.takeIf { uiState.hasAnyInput },
+                markerColor = when (mood) {
+                    ResultMood.Passed -> colors.primary
+                    ResultMood.Failed -> colors.error
+                    else -> colors.onSurface
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 22.dp)
+                    .height(52.dp)
             )
 
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 26.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Surface(
-                    shape = MaterialTheme.shapes.extraLarge,
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    tonalElevation = 1.dp
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                val required = uiState.requiredMinGrade.formatOneDecimal()
+                val safety = uiState.safetyGrade?.formatOneDecimal()
+                val suggestion = stringResource(R.string.prediction_field_hint_format, required)
+                val secure = safety?.let { stringResource(R.string.prediction_secure_hint_format, it) }
+
+                fun hintFor(index: Int): Pair<HintKind, String>? = when {
+                    secure != null && uiState.safetyGradeFieldIndex == index -> HintKind.Secure to secure
+                    grades[index - 1].isBlank() && uiState.predictionState == PredictionState.POSSIBLE ->
+                        HintKind.Suggestion to suggestion
+                    else -> null
+                }
+
+                StandardPlanWeights.toList().chunked(2).forEachIndexed { cut, (formativeWeight, cognitiveWeight) ->
+                    val formativeIndex = cut * 2 + 1
+                    val cognitiveIndex = cut * 2 + 2
+                    CutSection(
+                        title = stringResource(R.string.cut_title_format, cut + 1),
+                        weight = percentLabel(formativeWeight + cognitiveWeight),
+                        final = finals[cut].format(),
+                        hasGrades = grades[formativeIndex - 1].isNotBlank() || grades[cognitiveIndex - 1].isNotBlank(),
+                        index = cut,
+                        count = 3
                     ) {
-                        Surface(
-                            shape = CircleShape,
-                            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.AutoGraph,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.padding(10.dp)
-                            )
-                        }
-
-                        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                            Text(
-                                text = stringResource(R.string.default_calculator_title),
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Text(
-                                text = stringResource(R.string.home_default_description),
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
-
-                val isPossible = uiState.predictionState == PredictionState.POSSIBLE
-                val requiredGradeText = uiState.requiredMinGrade.formatOneDecimal()
-                val safetyGradeText = uiState.safetyGrade?.formatOneDecimal()
-
-                @Composable
-                fun suggestedHintFor(grade: String): String? =
-                    if (grade.isBlank() && isPossible) {
-                        stringResource(R.string.prediction_field_hint_format, requiredGradeText)
-                    } else null
-
-                @Composable
-                fun secureHintFor(fieldIndex: Int): String? =
-                    if (safetyGradeText != null && uiState.safetyGradeFieldIndex == fieldIndex) {
-                        stringResource(R.string.prediction_secure_hint_format, safetyGradeText)
-                    } else null
-
-                GradeSectionCard(
-                    title = stringResource(R.string.final_grade_1_format, uiState.final1.format())
-                ) {
-                    GradeInput(
-                        value = uiState.grade1,
-                        label = stringResource(R.string.grade_1_formative),
-                        onValueChange = { viewModel.onGradeChanged(1, it) },
-                        suggestedHint = suggestedHintFor(uiState.grade1),
-                        secureHint = secureHintFor(1)
-                    )
-                    Spacer(Modifier.height(10.dp))
-                    GradeInput(
-                        value = uiState.grade2,
-                        label = stringResource(R.string.grade_2_cognitive),
-                        onValueChange = { viewModel.onGradeChanged(2, it) },
-                        suggestedHint = suggestedHintFor(uiState.grade2),
-                        secureHint = secureHintFor(2)
-                    )
-                }
-
-                GradeSectionCard(
-                    title = stringResource(R.string.final_grade_2_format, uiState.final2.format())
-                ) {
-                    GradeInput(
-                        value = uiState.grade3,
-                        label = stringResource(R.string.grade_3_formative),
-                        onValueChange = { viewModel.onGradeChanged(3, it) },
-                        suggestedHint = suggestedHintFor(uiState.grade3),
-                        secureHint = secureHintFor(3)
-                    )
-                    Spacer(Modifier.height(10.dp))
-                    GradeInput(
-                        value = uiState.grade4,
-                        label = stringResource(R.string.grade_4_cognitive),
-                        onValueChange = { viewModel.onGradeChanged(4, it) },
-                        suggestedHint = suggestedHintFor(uiState.grade4),
-                        secureHint = secureHintFor(4)
-                    )
-                }
-
-                GradeSectionCard(
-                    title = stringResource(R.string.final_grade_3_format, uiState.final3.format())
-                ) {
-                    GradeInput(
-                        value = uiState.grade5,
-                        label = stringResource(R.string.grade_5_formative),
-                        onValueChange = { viewModel.onGradeChanged(5, it) },
-                        suggestedHint = suggestedHintFor(uiState.grade5),
-                        secureHint = secureHintFor(5)
-                    )
-                    Spacer(Modifier.height(10.dp))
-                    GradeInput(
-                        value = uiState.grade6,
-                        label = stringResource(R.string.grade_6_cognitive),
-                        onValueChange = { viewModel.onGradeChanged(6, it) },
-                        suggestedHint = suggestedHintFor(uiState.grade6),
-                        secureHint = secureHintFor(6)
-                    )
-                }
-
-                Surface(
-                    shape = MaterialTheme.shapes.large,
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    tonalElevation = 1.dp
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.default_completion_label),
-                            style = MaterialTheme.typography.titleSmall,
-                            fontWeight = FontWeight.SemiBold
+                        NumberTile(
+                            label = stringResource(R.string.formative),
+                            value = grades[formativeIndex - 1],
+                            onValueChange = { viewModel.onGradeChanged(formativeIndex, it) },
+                            trailingLabel = percentLabel(formativeWeight),
+                            hint = hintFor(formativeIndex),
+                            resyncKey = uiState.error,
+                            modifier = Modifier.weight(1f)
                         )
-                        Text(
-                            text = "$completedInputs/6",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        LinearWavyProgressIndicator(
-                            progress = { completionProgress },
-                            modifier = Modifier.fillMaxWidth()
+                        NumberTile(
+                            label = stringResource(R.string.cognitive),
+                            value = grades[cognitiveIndex - 1],
+                            onValueChange = { viewModel.onGradeChanged(cognitiveIndex, it) },
+                            trailingLabel = percentLabel(cognitiveWeight),
+                            hint = hintFor(cognitiveIndex),
+                            resyncKey = uiState.error,
+                            modifier = Modifier.weight(1f)
                         )
                     }
                 }
-
-                Surface(
-                    shape = MaterialTheme.shapes.extraLarge,
-                    color = totalContainerColor,
-                    modifier = Modifier.animateContentSize(),
-                    tonalElevation = 1.dp
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(20.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.total_final_grade),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = resultContentColor
-                        )
-                        Text(
-                            text = uiState.total.format(),
-                            style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold),
-                            color = resultContentColor
-                        )
-
-                        if (uiState.hasAnyInput) {
-                            Text(
-                                text = if (passed) {
-                                    stringResource(R.string.passing_message)
-                                } else {
-                                    stringResource(R.string.failing_message)
-                                },
-                                textAlign = TextAlign.Center,
-                                color = resultContentColor.copy(alpha = 0.75f),
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
-                    }
-                }
-
-                if (uiState.predictionState != PredictionState.NONE &&
-                    uiState.predictionState != PredictionState.COMPLETE
-                ) {
-                    val predictionContainerColor by animateColorAsState(
-                        targetValue = when (uiState.predictionState) {
-                            PredictionState.GUARANTEED -> MaterialTheme.colorScheme.primaryContainer
-                            PredictionState.IMPOSSIBLE -> MaterialTheme.colorScheme.errorContainer
-                            else -> MaterialTheme.colorScheme.tertiaryContainer
-                        },
-                        animationSpec = spring(stiffness = Spring.StiffnessLow),
-                        label = "prediction_card_color"
-                    )
-                    val predictionContentColor by animateColorAsState(
-                        targetValue = when (uiState.predictionState) {
-                            PredictionState.GUARANTEED -> MaterialTheme.colorScheme.onPrimaryContainer
-                            PredictionState.IMPOSSIBLE -> MaterialTheme.colorScheme.onErrorContainer
-                            else -> MaterialTheme.colorScheme.onTertiaryContainer
-                        },
-                        animationSpec = spring(stiffness = Spring.StiffnessLow),
-                        label = "prediction_card_content_color"
-                    )
-
-                    Surface(
-                        shape = MaterialTheme.shapes.extraLarge,
-                        color = predictionContainerColor,
-                        modifier = Modifier.animateContentSize(),
-                        tonalElevation = 1.dp
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(20.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.prediction_title),
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.SemiBold,
-                                color = predictionContentColor
-                            )
-
-                            when (uiState.predictionState) {
-                                PredictionState.POSSIBLE -> {
-                                    Text(
-                                        text = uiState.requiredMinGrade.formatOneDecimal(),
-                                        style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold),
-                                        color = predictionContentColor
-                                    )
-                                    Text(
-                                        text = stringResource(
-                                            R.string.prediction_needed_format,
-                                            uiState.requiredMinGrade.formatOneDecimal(),
-                                            uiState.emptyFieldsCount
-                                        ),
-                                        textAlign = TextAlign.Center,
-                                        color = predictionContentColor.copy(alpha = 0.75f),
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                }
-                                PredictionState.GUARANTEED -> {
-                                    Text(
-                                        text = stringResource(R.string.prediction_guaranteed),
-                                        textAlign = TextAlign.Center,
-                                        color = predictionContentColor.copy(alpha = 0.75f),
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                }
-                                PredictionState.IMPOSSIBLE -> {
-                                    Text(
-                                        text = stringResource(R.string.prediction_impossible),
-                                        textAlign = TextAlign.Center,
-                                        color = predictionContentColor.copy(alpha = 0.75f),
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                }
-                                else -> Unit
-                            }
-                        }
-                    }
-                }
-
-                Spacer(Modifier.height(100.dp))
             }
+        }
 
-            HorizontalFloatingToolbar(
-                expanded = true,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 24.dp)
+        HorizontalFloatingToolbar(
+            expanded = true,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(bottom = 24.dp)
+        ) {
+            FilledIconButton(onClick = onBack) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
+            }
+            FilledIconButton(
+                onClick = { viewModel.clearAll() },
+                enabled = uiState.hasAnyInput,
+                colors = IconButtonDefaults.filledTonalIconButtonColors()
             ) {
-                FilledIconButton(onClick = onBack) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.back)
-                    )
-                }
-                FilledIconButton(
-                    onClick = { viewModel.clearAll() },
-                    enabled = uiState.hasAnyInput,
-                    colors = IconButtonDefaults.filledTonalIconButtonColors()
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.CleaningServices,
-                        contentDescription = stringResource(R.string.clear)
-                    )
-                }
+                Icon(ImageVector.vectorResource(R.drawable.ic_cleaning_services), contentDescription = stringResource(R.string.clear))
             }
         }
     }
 }
 
+/**
+ * El resultado: la galleta del inicio con canto, rodeada por un anillo ondulado que se llena con
+ * las notas escritas. Al aprobar se transforma en sol; si el 3,0 ya no es posible, en una forma
+ * más cerrada y roja.
+ */
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-private fun GradeSectionCard(
+private fun ResultCookie(mood: ResultMood, total: Double, filled: Int, modifier: Modifier = Modifier) {
+    val colors = MaterialTheme.colorScheme
+    val polygon = when (mood) {
+        ResultMood.Passed -> MaterialShapes.Sunny
+        ResultMood.Failed -> MaterialShapes.Cookie4Sided
+        else -> MaterialShapes.Cookie9Sided
+    }
+    val shape = rememberMorphingShape(polygon)
+    val face by animateColorAsState(
+        when (mood) {
+            ResultMood.Empty -> colors.surfaceContainerHighest
+            ResultMood.Progress -> colors.primaryContainer
+            ResultMood.Passed -> colors.primary
+            ResultMood.Failed -> colors.errorContainer
+        },
+        label = "resultFace"
+    )
+    val content by animateColorAsState(
+        when (mood) {
+            ResultMood.Empty -> colors.onSurfaceVariant
+            ResultMood.Progress -> colors.onPrimaryContainer
+            ResultMood.Passed -> colors.onPrimary
+            ResultMood.Failed -> colors.onErrorContainer
+        },
+        label = "resultContent"
+    )
+    val label = when (mood) {
+        ResultMood.Empty -> R.string.calc_label_empty
+        ResultMood.Progress -> R.string.calc_label_progress
+        ResultMood.Passed -> R.string.calc_label_passed
+        ResultMood.Failed -> R.string.calc_label_failed
+    }
+
+    Box(modifier = modifier.height(304.dp)) {
+        CircularWavyProgressIndicator(
+            progress = { filled / GradeCount.toFloat() },
+            color = if (mood == ResultMood.Failed) colors.error else colors.primary,
+            trackColor = colors.surfaceContainerHigh,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 4.dp)
+                .size(272.dp)
+        )
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 34.dp)
+                .size(212.dp)
+        ) {
+            Box(
+                Modifier
+                    .offset(5.dp, 6.dp)
+                    .fillMaxSize()
+                    .background(depthColor(face), shape)
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(face, shape),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(stringResource(label), style = MaterialTheme.typography.titleMedium.copy(fontSize = 14.sp), color = content)
+                Text(
+                    text = total.format(),
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontSize = 54.sp,
+                        lineHeight = 60.sp,
+                        letterSpacing = (-1).sp,
+                        fontFeatureSettings = "tnum"
+                    ),
+                    fontWeight = FontWeight.Bold,
+                    color = content
+                )
+                Text(
+                    stringResource(R.string.calc_out_of),
+                    style = MaterialTheme.typography.labelLarge.copy(fontSize = 13.sp),
+                    color = content,
+                    modifier = Modifier.graphicsLayer { alpha = 0.8f }
+                )
+            }
+        }
+        Text(
+            text = stringResource(R.string.calc_filled_format, filled, GradeCount),
+            style = MaterialTheme.typography.labelLarge.copy(fontSize = 13.sp, fontFeatureSettings = "tnum"),
+            fontWeight = FontWeight.SemiBold,
+            color = colors.onSurfaceVariant,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
+    }
+}
+
+/** La frase bajo el resultado: qué falta, o cómo terminó. La cifra clave va resaltada. */
+@Composable
+private fun statusText(state: DefaultCalculatorUiState, complete: Boolean): AnnotatedString {
+    val highlight = SpanStyle(fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+    return when {
+        !state.hasAnyInput -> AnnotatedString(stringResource(R.string.default_empty_status))
+        state.predictionState == PredictionState.POSSIBLE -> {
+            val grade = state.requiredMinGrade.formatOneDecimal()
+            val text = stringResource(R.string.prediction_needed_format, grade, state.emptyFieldsCount)
+            buildAnnotatedString {
+                append(text)
+                val start = text.indexOf(grade)
+                if (start >= 0) addStyle(highlight, start, start + grade.length)
+            }
+        }
+        state.predictionState == PredictionState.GUARANTEED -> AnnotatedString(stringResource(R.string.prediction_guaranteed))
+        state.predictionState == PredictionState.IMPOSSIBLE -> AnnotatedString(stringResource(R.string.prediction_impossible))
+        complete && state.total >= PassingGrade -> AnnotatedString(stringResource(R.string.passing_message))
+        complete -> AnnotatedString(stringResource(R.string.failing_message))
+        else -> AnnotatedString("")
+    }
+}
+
+/** La escala de 0 a 5 con la franja desde el 3,0 y, si hay notas, dónde está la nota. */
+@Composable
+private fun GradeScale(value: Double?, markerColor: Color, modifier: Modifier = Modifier) {
+    val colors = MaterialTheme.colorScheme
+    val measurer = rememberTextMeasurer()
+    val small = TextStyle(fontSize = 12.sp, color = colors.outline)
+    val passStyle = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = colors.primary)
+    val markerStyle = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Bold, color = markerColor, fontFeatureSettings = "tnum")
+    val zone = lerp(colors.background, colors.primaryContainer, 0.6f)
+    val passLabel = PassingGrade.formatOneDecimal()
+    val markerLabel = value?.format()
+
+    Canvas(modifier = modifier) {
+        val w = size.width
+        fun x(v: Double) = (v / 5.0 * w).toFloat()
+        val y = 22.dp.toPx()
+
+        drawRoundRect(zone, Offset(x(PassingGrade), y - 6.dp.toPx()), Size(w - x(PassingGrade), 12.dp.toPx()), CornerRadius(6.dp.toPx()))
+        drawLine(colors.outlineVariant, Offset(0f, y), Offset(w, y), 2.dp.toPx())
+        for (v in 0..5) {
+            if (v == 3) continue
+            drawLine(colors.outlineVariant, Offset(x(v.toDouble()), y - 5.dp.toPx()), Offset(x(v.toDouble()), y + 5.dp.toPx()), 2.dp.toPx())
+            val label = measurer.measure(v.toString(), small)
+            drawText(label, topLeft = Offset((x(v.toDouble()) - label.size.width / 2f).coerceIn(0f, w - label.size.width), y + 10.dp.toPx()))
+        }
+        drawLine(colors.primary, Offset(x(PassingGrade), y - 14.dp.toPx()), Offset(x(PassingGrade), y + 14.dp.toPx()), 3.dp.toPx())
+        val pass = measurer.measure(passLabel, passStyle)
+        drawText(pass, topLeft = Offset(x(PassingGrade) - pass.size.width / 2f, y + 14.dp.toPx()))
+
+        if (value != null && markerLabel != null) {
+            val mx = x(value.coerceIn(0.0, 5.0))
+            drawCircle(colors.background, 11.dp.toPx(), Offset(mx, y))
+            drawCircle(markerColor, 8.dp.toPx(), Offset(mx, y))
+            val marker = measurer.measure(markerLabel, markerStyle)
+            drawText(marker, topLeft = Offset((mx - marker.size.width / 2f).coerceIn(0f, w - marker.size.width), y - 30.dp.toPx()))
+        }
+    }
+}
+
+@Composable
+private fun CutSection(
     title: String,
-    content: @Composable () -> Unit
+    weight: String,
+    final: String,
+    hasGrades: Boolean,
+    index: Int,
+    count: Int,
+    tiles: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit
 ) {
-    Surface(
-        shape = MaterialTheme.shapes.extraLarge,
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-        tonalElevation = 1.dp
-    ) {
+    val colors = MaterialTheme.colorScheme
+    Surface(shape = connectedShape(index, count), color = colors.surfaceContainerLow) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 18.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-            content()
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(title, style = MaterialTheme.typography.titleLarge.copy(fontSize = 18.sp), fontWeight = FontWeight.SemiBold)
+                Text(
+                    " · $weight",
+                    style = MaterialTheme.typography.titleMedium.copy(fontSize = 14.sp),
+                    color = colors.onSurfaceVariant
+                )
+                Spacer(Modifier.weight(1f))
+                Text(
+                    final,
+                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 22.sp, fontFeatureSettings = "tnum"),
+                    fontWeight = FontWeight.Bold,
+                    color = if (hasGrades) colors.onSurface else colors.outline
+                )
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp), content = tiles)
         }
     }
 }
 
 @Composable
-private fun GradeInput(
-    value: String,
-    label: String,
-    onValueChange: (String) -> Unit,
-    suggestedHint: String? = null,
-    secureHint: String? = null
-) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(label) },
-        supportingText = if (suggestedHint != null || secureHint != null) {
-            {
-                Column {
-                    suggestedHint?.let { Text(it) }
-                    secureHint?.let {
-                        Text(
-                            text = it,
-                            color = MaterialTheme.colorScheme.tertiary,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                }
-            }
-        } else null,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-        singleLine = true,
-        shape = MaterialTheme.shapes.medium,
-        modifier = Modifier.fillMaxWidth()
-    )
-}
+private fun percentLabel(weight: Double): String =
+    stringResource(R.string.percent_format, (weight * 100).roundToInt().toString())
 
 private fun Double.format(): String = String.format("%.2f", this)
 private fun Double.formatOneDecimal(): String = String.format("%.1f", this)

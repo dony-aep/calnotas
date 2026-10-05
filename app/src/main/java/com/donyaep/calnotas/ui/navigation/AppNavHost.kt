@@ -1,5 +1,8 @@
 package com.donyaep.calnotas.ui.navigation
 
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,9 +18,18 @@ import com.donyaep.calnotas.ui.screens.update.UpdateScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController = rememberNavController()) {
+    val motion = MaterialTheme.motionScheme
+
+    // Deslizar sin fundido: la pantalla de encima siempre es opaca, así que nunca quedan dos
+    // pantallas semitransparentes a la vez (el fundido por defecto de NavHost dura 700 ms).
+    // Al volver, NavHost ya dibuja la pantalla de destino por debajo de la que sale.
     NavHost(
         navController = navController,
-        startDestination = AppDestination.Home.route
+        startDestination = AppDestination.Home.route,
+        enterTransition = { slideInHorizontally(motion.defaultSpatialSpec()) { it } },
+        exitTransition = { slideOutHorizontally(motion.defaultSpatialSpec()) { -it / 4 } },
+        popEnterTransition = { slideInHorizontally(motion.defaultSpatialSpec()) { -it / 4 } },
+        popExitTransition = { slideOutHorizontally(motion.defaultSpatialSpec()) { it } }
     ) {
         composable(AppDestination.Home.route) {
             HomeScreen(
@@ -44,7 +56,11 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             )
         }
         composable(AppDestination.Help.route) {
-            HelpScreen(onBack = { navController.popBackStack() })
+            HelpScreen(
+                onBack = { navController.popBackStack() },
+                onOpenDefault = { navController.navigate(AppDestination.DefaultCalculator.route) },
+                onOpenCustom = { navController.navigate(AppDestination.CustomCalculator.route) }
+            )
         }
         composable(AppDestination.About.route) {
             AboutScreen(onBack = { navController.popBackStack() })
