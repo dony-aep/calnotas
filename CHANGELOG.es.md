@@ -9,6 +9,31 @@ y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/spec/v2
 
 ## [Sin publicar]
 
+## [2.2.0] - 2026-10-04
+
+### Añadido
+- Ayuda tiene un botón que abre la calculadora que estabas leyendo.
+- Configuración muestra una vista previa pequeña de cada tema, para ver cómo queda antes de elegirlo.
+- La calculadora personalizada muestra la nota que llevas aunque los porcentajes todavía no sumen 100 %.
+
+### Cambiado
+- Nueva pantalla de inicio con formas de Material 3 Expressive: la calculadora estándar es una galleta redonda y la personalizada un cuadrado inclinado que muestra los campos que guardaste. Las dos se hunden y cambian de forma al presionarlas, y el saludo y las formas del fondo cambian según la hora del día.
+- La calculadora estándar muestra tu nota arriba, dentro de un anillo que se llena a medida que escribes las notas, seguida de lo que te falta y de dónde estás en la escala de 0 a 5. Solo se pone en rojo cuando el 3,0 ya no es alcanzable, no mientras faltan notas.
+- La calculadora personalizada muestra cómo se reparten tus porcentajes y cuánto falta asignar o cuánto sobra de 100 %. La nota para aprobar se edita junto al resultado.
+- Ayuda, Configuración, Acerca de y Buscar actualizaciones comparten el aspecto de las calculadoras: el título arriba, el botón de volver en una barra flotante abajo y una forma de Material 3 Expressive al fondo. Sus listas agrupadas usan el estilo de lista segmentada en lugar de una imitación hecha a mano.
+- Ayuda tiene una pestaña para cada calculadora. Dibuja a escala lo que pesa cada nota, resuelve un ejemplo paso a paso y muestra las pistas de predicción tal como se ven en la calculadora.
+- El tema y el idioma se eligen en la misma pantalla de Configuración y se aplican al tocarlos. Esto reemplaza el diálogo de tema con «Cancelar» y «Aceptar» de la 2.1.0 y la hoja de idioma.
+- Buscar actualizaciones le da a cada resultado su propia forma: un indicador de carga mientras busca, un sol cuando estás al día, las novedades en una lista cuando hay una versión nueva y un botón para reintentar cuando no hay conexión.
+- Acerca de muestra el logo de la app dentro de la galleta del inicio, con el sitio web y el desarrollador debajo.
+- El APK pesa cerca de un tercio de lo que pesaba (5,8 MB frente a los 17,9 MB de la 2.1.0), así que se descarga e instala más rápido. Las calculadoras personalizadas guardadas se conservan al actualizar.
+- Los iconos vienen ahora de Material Symbols, el conjunto que Google mantiene hoy; algunos se ven ligeramente distintos.
+- Las pantallas entran y salen deslizándose en lugar de fundirse durante 0,7 s, así que dos pantallas ya no se transparentan una sobre otra al navegar. La calculadora personalizada guardada aparece ya cargada mientras su pantalla entra.
+- En Android 12 y posteriores, la pantalla de inicio usa el color de fondo dinámico del sistema en lugar de un gris fijo.
+
+### Corregido
+- Ya se puede borrar una calculadora personalizada guardada: «Reiniciar» pide confirmación y elimina también la copia guardada. Antes, al quitar todos los campos lo guardado seguía intacto y los campos antiguos volvían la próxima vez que se abría la calculadora.
+- Al volver el tema a «Predeterminado del sistema», la app sigue de inmediato el modo claro u oscuro del teléfono. Antes, después de elegir «Claro» u «Oscuro», la app se quedaba con ese tema hasta reiniciarla.
+
 ## [2.1.0] - 2026-06-30
 
 ### Añadido

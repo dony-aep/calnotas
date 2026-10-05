@@ -9,6 +9,31 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-10-04
+
+### Added
+- Help has a button that opens the calculator you were reading about.
+- Settings shows a small preview of each theme, so you can see how it looks before choosing it.
+- The custom calculator shows your grade so far even before the percentages add up to 100%.
+
+### Changed
+- Redesigned home screen with Material 3 Expressive shapes: the standard calculator is a round cookie and the custom one a tilted square that lists your saved fields. Both sink and change shape when pressed, and the greeting and background shapes follow the time of day.
+- The standard calculator now puts your grade at the top, inside a ring that fills as you enter grades, followed by what you still need and where you stand on the 0–5 scale. It only turns red once 3.0 can no longer be reached, not while grades are still missing.
+- The custom calculator shows how your percentages are split and what is still unassigned or over 100%. The passing grade can be edited right next to the result.
+- Help, Settings, About and Check for updates share the calculators' look: the title at the top, the back button in a floating toolbar at the bottom and a Material 3 Expressive shape in the background. Their grouped lists use the segmented list style instead of a hand-built approximation.
+- Help has a tab for each calculator. It draws the weight of every grade to scale, walks through a worked example and shows the prediction hints as they look in the calculator.
+- Theme and language are chosen right on the Settings screen and apply as soon as you tap them. This replaces the theme dialog with Cancel and OK added in 2.1.0, and the language sheet.
+- Check for updates gives each result its own shape: a loading indicator while it checks, a sun when you are up to date, the release notes as a list when a new version is out, and a retry button when it cannot connect.
+- About shows the app logo inside the home screen cookie, with the website and the developer below it.
+- The APK is about a third of its previous size (5.8 MB, down from 17.9 MB in 2.1.0), so it downloads and installs faster. Saved custom calculators carry over unchanged when updating.
+- Icons now come from Material Symbols, the set Google currently maintains; a few of them look slightly different.
+- Screens now slide in and out instead of cross-fading for 0.7 s, so two screens no longer show through each other while navigating. A saved custom calculator is already filled in as its screen slides in.
+- On Android 12 and later, the startup screen uses the system's dynamic background color instead of a fixed gray.
+
+### Fixed
+- A saved custom calculator can now be deleted: "Reset" asks for confirmation and erases the saved copy too. Before, deleting every field left the save untouched, and the old fields came back the next time the calculator was opened.
+- Switching the theme back to "System default" now follows the phone's dark or light mode right away. Before, after choosing "Light" or "Dark", the app kept that theme until it was restarted.
+
 ## [2.1.0] - 2026-06-30
 
 ### Added
