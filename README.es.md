@@ -49,7 +49,17 @@ CalNotas es una aplicación moderna de calculadora de notas para Android, migrad
 
 | Inicio | Calculadora por Defecto | Calculadora Personalizada |
 |:------:|:------------------------:|:--------------------------:|
-| Menú principal y acceso rápido | Calculadora con estructura predefinida | Calculadora flexible con campos personalizados |
+| Menú principal y acceso rápido | Tu nota, lo que te falta y la escala de 0 a 5 | Tus propios campos y cómo se reparten los porcentajes |
+
+<p align="center">
+  <img src="docs/screenshots/help-screen.png" width="250" alt="Pantalla de ayuda"/>
+  <img src="docs/screenshots/settings-screen.png" width="250" alt="Pantalla de configuración"/>
+  <img src="docs/screenshots/update-screen.png" width="250" alt="Pantalla de buscar actualizaciones"/>
+</p>
+
+| Ayuda | Configuración | Buscar Actualizaciones |
+|:-----:|:-------------:|:----------------------:|
+| Cómo funciona cada calculadora, con un ejemplo resuelto | Tema e idioma, aplicados al tocarlos | Verificador de actualizaciones integrado |
 
 ## Requisitos
 

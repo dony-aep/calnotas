@@ -49,7 +49,17 @@ CalNotas is a modern grade calculator app for Android, migrated from Flutter to 
 
 | Home | Default Calculator | Custom Calculator |
 |:----:|:------------------:|:-----------------:|
-| Main menu and quick access | Calculator with predefined structure | Flexible calculator with custom fields |
+| Main menu and quick access | Your grade, what you still need and the 0–5 scale | Your own fields and how the percentages are split |
+
+<p align="center">
+  <img src="docs/screenshots/help-screen.png" width="250" alt="Help Screen"/>
+  <img src="docs/screenshots/settings-screen.png" width="250" alt="Settings Screen"/>
+  <img src="docs/screenshots/update-screen.png" width="250" alt="Check for Updates Screen"/>
+</p>
+
+| Help | Settings | Check for Updates |
+|:----:|:--------:|:-----------------:|
+| How each calculator works, with a worked example | Theme and language, applied on tap | Built-in update checker |
 
 ## Requirements
 
