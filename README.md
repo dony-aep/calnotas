@@ -4,7 +4,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Android%208.0%2B-green?style=flat-square&logo=android" alt="Platform Android 8.0+"/>
-  <img src="https://img.shields.io/badge/Kotlin-2.2.10-purple?style=flat-square&logo=kotlin" alt="Kotlin"/>
+  <img src="https://img.shields.io/badge/Kotlin-2.4.20-purple?style=flat-square&logo=kotlin" alt="Kotlin"/>
   <img src="https://img.shields.io/badge/Jetpack%20Compose-Material%203%20Expressive-blue?style=flat-square" alt="Jetpack Compose M3 Expressive"/>
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License"/>
   <img src="https://img.shields.io/github/v/release/dony-aep/calnotas?style=flat-square" alt="Release"/>
@@ -76,7 +76,7 @@ Generated APK:
 
 ## Tech Stack
 
-- Kotlin 2.2.10
+- Kotlin 2.4.20
 - Jetpack Compose + Material 3 Expressive
 - Navigation Compose
 - DataStore Preferences
